@@ -42,9 +42,14 @@ struct Tile {
 	
 	Walls walls;
 
-	void draw(SpriteBatch spriteBatch) {
+	void draw(SpriteBatch &spriteBatch) {
+		//std::cout << _floor._tex << std::endl;
+		
+		spriteBatch.draw(glm::vec4(0.0f, 0.0f, 600.0f, 800.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),1, 0.0f, ColorRGBA8(255.0f, 255.0f, 255.0f, 255.0f), 0.0f);
 
-		spriteBatch.draw(glm::vec4(_x * 64, _y*TiSi, TiSi, TiSi), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), _floor._tex, 0.0f, ColorRGBA8(255, 255, 255, 255), 0.0f);
+
+
+		spriteBatch.draw(glm::vec4(_x * TiSi, _y*TiSi, TiSi, TiSi), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), _floor._tex, 0.0f, ColorRGBA8(255, 255, 255, 255), 0.0f);
 
 	}
 
@@ -56,7 +61,7 @@ public:
 	Ship();
 	~Ship();
 
-	void draw(SpriteBatch spriteBatch);
+	void draw(SpriteBatch& spriteBatch);
 	void update();
 	void addTile(char floorType, TextureCache texCache, glm::vec2 coords);
 

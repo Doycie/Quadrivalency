@@ -24,9 +24,9 @@ void Ship::update() {
 
 }
 
-void Ship::draw(SpriteBatch spriteBatch) {
-
-
+void Ship::draw(SpriteBatch &spriteBatch) {
+	
+	
 	for (int i = 0; i < _tiles.size(); i++) {
 
 		_tiles[i].draw(spriteBatch);
