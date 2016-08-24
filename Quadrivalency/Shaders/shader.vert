@@ -1,10 +1,10 @@
 #version 150
 
 in vec2 position;
-in vec3 color;
+in vec4 color;
 in vec2 texcoord;
 
-out vec3 Color;
+out vec4 Color;
 out vec2 Texcoord;
 
 uniform mat4 trans;

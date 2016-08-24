@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	Ship ship;
+	Ship ship(texcache);
 
 	//glEnable(GL_DEPTH_TEST);
 
@@ -187,15 +187,13 @@ int main(int argc, char *argv[])
 		drawer.updateCamera();
 
 		spriteBatch.begin(GlyphSortType::FRONT_TO_BACK);
-	
-		
-		spriteBatch.draw(glm::vec4(0.0f,0.0f,64.0f,64.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), texcache.getTexture("image.png"), 0.0f, ColorRGBA8(255.0f,255.0f,255.0f,255.0f) , 0.0f);
-	
-		
-		spriteBatch.draw(glm::vec4(64.0f,64.0f, 600.0f, 800.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), texcache.getTexture("image2.png"), 0.0f, ColorRGBA8(255.0f, 255.0f, 255.0f, 255.0f), 0.0f);
 
-
+	
+		spriteBatch.draw(glm::vec4(0.0f,0.0f,64.0f,64.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), texcache.getTexture("image.png"), 0.0f, ColorRGBA8(255,255,255,128) , 0.0f);
+		spriteBatch.draw(glm::vec4(64.0f,64.0f, 600.0f, 800.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), texcache.getTexture("image2.png"), 0.0f, ColorRGBA8(255,255,255,128), 0.0f);
 		ship.draw(spriteBatch);
+
+		spriteBatch.draw(glm::vec4(0.0f, 0.0f, 64.0f, 64.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), texcache.getTexture("image.png"), 0.0f, ColorRGBA8(255, 255, 255, 128), 0.0f);
 		
 
 		spriteBatch.end();
