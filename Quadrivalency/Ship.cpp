@@ -26,16 +26,24 @@ void Ship::addTile(char floorType, TextureCache texCache, glm::vec2 coords)
 		y -=1;
 
 	bool empty = true;
-	TilePos a(x, y);
-	if (_tiles.count(a)>0) {
-		_tiles.erase(a);
-		empty = false;
+	
+	Pos tilePos(x, y);
+
+	std::vector<Tile>::iterator it = _tiles.begin();
+	while ( it != _tiles.end()) {
+		if (tilePos == it->pos) {
+			it = _tiles.erase(it);
+			empty = false;
+		}
+		else {
+			it++;
+		}
 	}
 
+
 	if (empty) {
-		
-		_tiles.insert(std::pair < TilePos, TileClass>(TilePos(x, y),  TileClass(floorType, texCache, _tiles, x, y)));
-		
+		_tiles.push_back(Tile(floorType,texCache,_tiles,tilePos));
+		//_tiles.insert(std::pair < TilePos, TileClass>(TilePos(x, y),  TileClass(floorType, texCache, _tiles, x, y)));
 	}
 
 }
@@ -47,8 +55,8 @@ void Ship::update() {
 
 void Ship::draw(SpriteBatch &spriteBatch) {
 	
-	for (std::map<TilePos, TileClass>::iterator it = _tiles.begin(); it != _tiles.end(); it++) {
-		it->second.draw(spriteBatch, it->first._x,it->first._y);
+	for (auto it = _tiles.begin(); it != _tiles.end(); it++) {
+		it->draw(spriteBatch, it->pos.x,it->pos.y);
 	}
 	
 

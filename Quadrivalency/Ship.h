@@ -4,15 +4,9 @@
 #include "SpriteBatch.h"
 #include "TextureCache.h"
 
-#include "TileClass.h"
+#include "Tile.h"
 
-struct ComparatorIs {
-	bool operator()(const TilePos& t, const TilePos& v) const {
-		if (t._x == v._x && t._y == v._y)
-			return true;
-		return false;
-	}
-};
+
 
 class Ship
 {
@@ -27,7 +21,7 @@ public:
 
 private:
 
-	std::map < TilePos, TileClass  > _tiles;
+	std::vector<Tile> _tiles;
 
 
 
