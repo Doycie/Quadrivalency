@@ -1,12 +1,18 @@
 #include "Tile.h"
 
 
-Tile::Tile(char floorType, TextureCache texCache, std::vector<Tile>& tiles, Pos position) {
+Tile::Tile(char floorType, TextureCache texCache, std::vector<Tile>* tiles, Pos position) {
 	_floor._type = floorType;
 	_pos = position;
 	updateNeighbours(tiles);
 	if (floorType == 1) {
 		updateTileTex(texCache,tiles);
+	}
+	for (int i = 0; i < 4; i++) {
+		if (hasNeighbour[i]) {
+			neighbours[i]->updateNeighbours(tiles);
+			neighbours[i]->updateTileTex(texCache, tiles);
+		}
 	}
 }
 
@@ -16,7 +22,7 @@ void Tile::draw(SpriteBatch &spriteBatch, int x, int y) {
 }
 
 
-void Tile::updateNeighbours(std::vector<Tile>& tiles) {
+void Tile::updateNeighbours(std::vector<Tile>* tiles) {
 	
 	for (int i = 0; i <4; i++) {
 		hasNeighbour[i] = false;
@@ -26,29 +32,29 @@ void Tile::updateNeighbours(std::vector<Tile>& tiles) {
 	Pos bot(_pos.x, _pos.y - 1);
 	Pos top(_pos.x, _pos.y + 1);
 
-	for (unsigned int i = 0; i < tiles.size(); i++) {
-		Pos tilePos = tiles[i]._pos;
+	for (unsigned int i = 0; i < tiles->size(); i++) {
+		Pos tilePos = tiles->at(i)._pos;
 
 		if (tilePos == left) {
-			neighbours[0] = &tiles[i];
+			neighbours[0] = &tiles->at(i);
 			hasNeighbour[0] = true;
 		}
 		if (tilePos == top) {
-			neighbours[1] = &tiles[i];
+			neighbours[1] = &tiles->at(i);
 			hasNeighbour[1] = true;
 		}
 		if (tilePos == right) {
-			neighbours[2] = &tiles[i];
+			neighbours[2] = &tiles->at(i);
 			hasNeighbour[2] = true;
 		}
 		if (tilePos == bot) {
-			neighbours[3] = &tiles[i];
+			neighbours[3] = &tiles->at(i);
 			hasNeighbour[3] = true;
 		}
 	}
 }
 
-void Tile::removeForNeighbours(std::vector<Tile>& tiles)
+void Tile::removeForNeighbours(std::vector<Tile>* tiles)
 {
 	for (int i = 0; i < 4; i++) {
 		if (hasNeighbour[i]) {
@@ -61,7 +67,7 @@ void Tile::removeForNeighbours(std::vector<Tile>& tiles)
 
 
 
-void Tile::updateTileTex(TextureCache texCache,std::vector<Tile> tiles) {
+void Tile::updateTileTex(TextureCache texCache,std::vector<Tile>* tiles) {
 
 	bool left = false;
 	bool right = false;
@@ -75,7 +81,6 @@ void Tile::updateTileTex(TextureCache texCache,std::vector<Tile> tiles) {
 	if (hasNeighbour[0]) {
 		if (neighbours[0]->_floor._type == floorType) {
 			left = true;
-			
 		}
 	}
 	if (hasNeighbour[1]) {
@@ -94,22 +99,22 @@ void Tile::updateTileTex(TextureCache texCache,std::vector<Tile> tiles) {
 		}
 	}
 
-	if (left && !right && top && bot) {
+	if (left && !right && !top && !bot) {
 		_floor = Floor(texCache.getTexture("spaceTileLeft.png"), 1);
 	}
-	if (!left && right && top && bot) {
+	if (!left && right && !top && !bot) {
 		_floor = Floor(texCache.getTexture("spaceTileRight.png"), 1);
 	}
-	if (left && right && top && !bot) {
+	if (!left && !right && top && !bot) {
 		_floor = Floor(texCache.getTexture("spaceTileTop.png"), 1);
 	}
-	if (left && right && !top && bot) {
+	if (!left && !right && !top && bot) {
 		_floor = Floor(texCache.getTexture("spaceTileBot.png"), 1);
 	}
-	if (!left && !right && top && bot) {
+	if (left && right && !top && !bot) {
 		_floor = Floor(texCache.getTexture("spaceTileRightLeft.png"), 1);
 	}
-	if (left && right && !top && !bot) {
+	if (!left && !right && top && bot) {
 		_floor = Floor(texCache.getTexture("spaceTileTopBot.png"), 1);
 	}
 	if (left && !right && top && !bot) {
@@ -124,24 +129,27 @@ void Tile::updateTileTex(TextureCache texCache,std::vector<Tile> tiles) {
 	if (left && !right && !top && bot) {
 		_floor = Floor(texCache.getTexture("spaceTileLeftBot.png"), 1);
 	}
-	if (!left && !right && top && !bot) {
+	if (left && right && top && !bot) {
 		_floor = Floor(texCache.getTexture("spaceTileRightTopLeft.png"), 1);
 	}
-	if (!left && !right && !top && bot) {
+	if (!left && right && top && bot) {
 		_floor = Floor(texCache.getTexture("spaceTileLeftRightBot.png"), 1);
 	}
-	if (left && !right && !top && !bot) {
+	if (left && !right && top && bot) {
 		_floor = Floor(texCache.getTexture("spaceTileLeftTopBot.png"), 1);
 	}
-	if (!left && right && !top && !bot) {
+	if (!left && right && top && bot) {
 		_floor = Floor(texCache.getTexture("spaceTileRightTopBot.png"), 1);
 	}
 	if (!left && !right && !top && !bot) {
-		_floor = Floor(texCache.getTexture("spaceTileOpen.png"), 1);
-	}
-	if (left && right && top && bot) {
 		_floor = Floor(texCache.getTexture("spaceTile.png"), 1);
 	}
+	if (left && right && top && bot) {
+		_floor = Floor(texCache.getTexture("spaceTileOpen.png"), 1);
+	}
+
+
+
 }
 
 

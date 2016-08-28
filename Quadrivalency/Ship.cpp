@@ -8,13 +8,14 @@ Ship::Ship()
 
 Ship::Ship(TextureCache texCache)
 {
-	_tiles.reserve(10);
+	
 	addTile(1, texCache, glm::vec2(512, 512));
 }
 
 
 Ship::~Ship()
 {
+	delete _tiles;
 }
 
 void Ship::addTile(char floorType, TextureCache texCache, glm::vec2 coords)
@@ -41,10 +42,10 @@ void Ship::addTile(char floorType, TextureCache texCache, glm::vec2 coords)
 	//	}
 	//}
 
-	for (int i = 0; i < _tiles.size(); i++) {
-		if (tilePos == _tiles[i]._pos) {
-			_tiles[i].removeForNeighbours(_tiles);
-			_tiles.erase(_tiles.begin() + i);
+	for (int i = 0; i < _tiles->size(); i++) {
+		if (tilePos == _tiles->at(i)._pos) {
+			_tiles->at(i).removeForNeighbours(_tiles);
+			_tiles->erase(_tiles->begin() + i);
 
 			empty = false;
 		}
@@ -52,7 +53,7 @@ void Ship::addTile(char floorType, TextureCache texCache, glm::vec2 coords)
 
 
 	if (empty) {
-		_tiles.push_back(Tile(floorType,texCache,_tiles,tilePos));
+		_tiles->push_back(Tile(floorType,texCache,_tiles,tilePos));
 		//_tiles.insert(std::pair < TilePos, TileClass>(TilePos(x, y),  TileClass(floorType, texCache, _tiles, x, y)));
 	}
 
@@ -65,7 +66,7 @@ void Ship::update() {
 
 void Ship::draw(SpriteBatch &spriteBatch) {
 	
-	for (auto it = _tiles.begin(); it != _tiles.end(); it++) {
+	for (auto it = _tiles->begin(); it != _tiles->end(); it++) {
 		it->draw(spriteBatch, it->_pos.x,it->_pos.y);
 	}
 	

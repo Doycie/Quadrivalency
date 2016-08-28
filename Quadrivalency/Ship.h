@@ -8,6 +8,7 @@
 
 
 
+
 class Ship
 {
 public:
@@ -21,7 +22,7 @@ public:
 
 private:
 
-	std::vector<Tile> _tiles;
+	std::vector<Tile>* _tiles = new std::vector<Tile>;
 
 
 

@@ -42,7 +42,7 @@ class Tile {
 
 public:
 
-	Tile(char floorType, TextureCache texCache, std::vector<Tile>& tiles, Pos position);
+	Tile(char floorType, TextureCache texCache, std::vector<Tile>* tiles, Pos position);
 
 
 	Floor _floor;
@@ -51,14 +51,16 @@ public:
 	Pos _pos;
 
 	void draw(SpriteBatch &spriteBatch, int x, int y);
-	void updateNeighbours(std::vector<Tile>& tiles);
-	void removeForNeighbours(std::vector<Tile>& tiles);
+	void updateNeighbours(std::vector<Tile>* tiles);
+	void removeForNeighbours(std::vector<Tile>* tiles);
+	void updateTileTex(TextureCache texCache, std::vector<Tile>* tiles);
+
 
 private:
-	void updateTileTex(TextureCache texCache,  std::vector<Tile> tiles);
+
 	
-	Tile* neighbours[3];
-	bool hasNeighbour[3];
+	Tile* neighbours[4];
+	bool hasNeighbour[4];
 
 
 };
