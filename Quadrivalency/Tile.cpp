@@ -51,21 +51,11 @@ void Tile::updateNeighbours(std::vector<Tile>& tiles) {
 void Tile::removeForNeighbours(std::vector<Tile>& tiles)
 {
 	for (int i = 0; i < 4; i++) {
-		for (int k = 0; k < 4; i++) {
-			if (hasNeighbour[i]) {
-				if (neighbours[i]->hasNeighbour[k]) {
-					if (neighbours[i]->neighbours[k]->hasNeighbour[k]) {
-						if (neighbours[i]->neighbours[k] == this) {
-							neighbours[i]->neighbours[k]->hasNeighbour[k] = false;
-
-						}
-					}
-				}
-			}
-				
-		}
+		if (hasNeighbour[i]) {
+			neighbours[i]->hasNeighbour[(i + 2 > 3) ? i - 2 : i + 2] = false;
+			std::cout << ((i + 2 > 3) ? i - 2 : i + 2) << std::endl;
+		}		
 	}
-
 }
 
 
@@ -80,21 +70,29 @@ void Tile::updateTileTex(TextureCache texCache,std::vector<Tile> tiles) {
 
 	char floorType = _floor._type;
 
+
+
 	if (hasNeighbour[0]) {
 		if (neighbours[0]->_floor._type == floorType) {
 			left = true;
-			std::cout << "floortype alike";
+			
 		}
 	}
-	if (hasNeighbour[1])
-		if (neighbours[1]->_floor._type == floorType)
+	if (hasNeighbour[1]) {
+		if (neighbours[1]->_floor._type == floorType) {
 			top = true;
-	if (hasNeighbour[2])
-		if (neighbours[2]->_floor._type == floorType)
+		}
+	}
+	if (hasNeighbour[2]) {
+		if (neighbours[2]->_floor._type == floorType) {
 			right = true;
-	if (hasNeighbour[3])
-		if (neighbours[3]->_floor._type == floorType)
+		}
+	}
+	if (hasNeighbour[3]) {
+		if (neighbours[3]->_floor._type == floorType) {
 			bot = true;
+		}
+	}
 
 	if (left && !right && top && bot) {
 		_floor = Floor(texCache.getTexture("spaceTileLeft.png"), 1);
