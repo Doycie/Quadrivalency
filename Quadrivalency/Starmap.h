@@ -18,9 +18,9 @@ struct Positionbla {
 
 struct Star
 {
-	Star() :x(0), y(0), type(0) {}
-	Star(int px, int py, int myType) :x(px), y(py), type(myType) {}
-	int x, y, type;
+	Star() :x(0), y(0), type(0), size(0) {}
+	Star(int px, int py, int myType, int mySize) :x(px), y(py), type(myType), size(mySize) {}
+	int x, y, type, size;
 };
 
 class Starmap {
@@ -34,16 +34,18 @@ public:
 	void update(Positionbla pos);
 
 private: 
+	static const int _amountOfStarTypes = 4;
+
 	//random seed to generate
 	int _seed = 213312;
 
 	//dimensions of a sector
-	int _length = 100;
+	int _length = 400;
 
 	//amount of stars in a sector
-	int _amount = 500;
+	int _amount = 1000;
 
-	GLuint _starSprite;
+	GLuint _starSprite[_amountOfStarTypes];
 
 	std::list<Star>::const_iterator iterator;
 
