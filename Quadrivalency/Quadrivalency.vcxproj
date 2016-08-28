@@ -120,6 +120,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
+    <ClCompile Include="Starmap.cpp" />
     <ClCompile Include="TextureCache.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
@@ -127,6 +128,7 @@
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="SpriteBatch.h" />
+    <ClInclude Include="Starmap.h" />
     <ClInclude Include="TextureCache.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>
