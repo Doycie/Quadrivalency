@@ -48,15 +48,17 @@ public:
 	Floor _floor;
 	Module _module;
 	Walls walls;
-	Pos pos;
+	Pos _pos;
 
 	void draw(SpriteBatch &spriteBatch, int x, int y);
+	void updateNeighbours(std::vector<Tile>& tiles);
+	void removeForNeighbours(std::vector<Tile>& tiles);
 
 private:
-
-	void updateTileTex(TextureCache texCache);
-
+	void updateTileTex(TextureCache texCache,  std::vector<Tile> tiles);
+	
 	Tile* neighbours[3];
+	bool hasNeighbour[3];
 
 
 };
