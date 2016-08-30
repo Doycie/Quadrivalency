@@ -18,13 +18,11 @@ public:
 
 	void draw(SpriteBatch& spriteBatch);
 	void update();
-	void addTile(char floorType, TextureCache texCache, glm::vec2 coords);
+	void addTile(char floorType, TextureCache texCache, int x);
 
 private:
 
-	std::vector<Tile>* _tiles = new std::vector<Tile>;
-
-
+	Tile tiles[1024];
 
 };
 

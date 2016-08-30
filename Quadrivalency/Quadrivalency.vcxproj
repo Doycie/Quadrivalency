@@ -76,6 +76,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;$(SolutionDir)deps\lib\SDL\x86\SDL2.lib;$(SolutionDir)deps\lib\SDL\x86\SDL2main.lib;$(SolutionDir)deps\lib\GLEW\x86\glew32s.lib;$(SolutionDir)deps\lib\SOIL\x86\SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>

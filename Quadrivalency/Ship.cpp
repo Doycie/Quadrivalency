@@ -9,54 +9,44 @@ Ship::Ship()
 Ship::Ship(TextureCache texCache)
 {
 	
-	addTile(1, texCache, glm::vec2(512, 512));
+	addTile(1, texCache, (32 * 16) + 16);
+
+	addTile(1, texCache, (32 * 17) + 16);
+	addTile(1, texCache, (32 * 16) + 17);
+	addTile(1, texCache, (32 * 17) + 17);
+
+	addTile(1, texCache, (32 * 15) + 16);
+	addTile(1, texCache, (32 * 15) + 15);
+	addTile(1, texCache, (32 * 16) + 15);
+
+	addTile(1, texCache, (32 * 15) + 17);
+	addTile(1, texCache, (32 * 17) + 15);
 }
 
 
 Ship::~Ship()
 {
-	delete _tiles;
+
 }
 
-void Ship::addTile(char floorType, TextureCache texCache, glm::vec2 coords)
+void Ship::addTile(char floorType, TextureCache texCache, int x)
 {
-	int x = (int) (coords.x) / 64;
-	int y = (int) (coords.y) / 64;
-	if (x < 0)
-		x -= 1;
-	if (y < 0)
-		y -=1;
 
-	bool empty = true;
-	
-	Pos tilePos(x, y);
 
-	//std::vector<Tile>::iterator it = _tiles.begin();
-	//while ( it != _tiles.end()) {
-	//	if (tilePos == it->_pos) {
-	//		it = _tiles.erase(it);
-	//		empty = false;
-	//	}
-	//	else {
-	//		it++;
-	//	}
-	//}
+	if (x < 1024 && x >= 0) {
+		if (tiles[x]._exist) {
+			tiles[x]._exist = false;
+		}
+		else {
+			tiles[x].init(floorType, texCache, tiles, x);
+			tiles[x]._exist = true;
+			tiles[tiles, x - 1].updateTileTex(texCache, tiles, x - 1);
+			tiles[tiles, x + 1].updateTileTex(texCache, tiles, x + 1);
+			tiles[tiles, x - 32].updateTileTex(texCache, tiles, x - 32);
+			tiles[tiles, x + 32].updateTileTex(texCache, tiles, x + 32);
 
-	for (int i = 0; i < _tiles->size(); i++) {
-		if (tilePos == _tiles->at(i)._pos) {
-			_tiles->at(i).removeForNeighbours(_tiles);
-			_tiles->erase(_tiles->begin() + i);
-
-			empty = false;
 		}
 	}
-
-
-	if (empty) {
-		_tiles->push_back(Tile(floorType,texCache,_tiles,tilePos));
-		//_tiles.insert(std::pair < TilePos, TileClass>(TilePos(x, y),  TileClass(floorType, texCache, _tiles, x, y)));
-	}
-
 }
 
 
@@ -66,8 +56,9 @@ void Ship::update() {
 
 void Ship::draw(SpriteBatch &spriteBatch) {
 	
-	for (auto it = _tiles->begin(); it != _tiles->end(); it++) {
-		it->draw(spriteBatch, it->_pos.x,it->_pos.y);
+	for (int i = 0; i < 1024; i++) {
+		if(tiles[i]._exist)
+		tiles[i].draw(spriteBatch, i % 32, (int)i / 32);
 	}
 	
 

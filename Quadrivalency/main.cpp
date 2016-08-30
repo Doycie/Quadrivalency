@@ -137,6 +137,10 @@ int main(int argc, char *argv[])
 	Starmap starmap(texcache);
 
 	//glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	drawer.moveCamera(glm::vec3(1024.0f, 1024.0f, 0.0f));
 
 	while (true)
 	{
@@ -150,7 +154,13 @@ int main(int argc, char *argv[])
 					int x, y;
 					SDL_GetMouseState(&x, &y);
 					glm::vec2 coords = drawer.getWorldCoordinates(glm::vec2(x, y));
-					ship.addTile(1,texcache,coords);
+
+					if (coords.x >= 0 && coords.x <= 2048 && y >= 0 && y <= 2048) {
+					
+
+						ship.addTile(1, texcache, (int)((coords.y) / 64) * 32 + (coords.x / 64));
+
+					}
 				}
 				if (windowEvent.button.button == SDL_BUTTON_RIGHT) {
 
@@ -163,16 +173,16 @@ int main(int argc, char *argv[])
 			if (windowEvent.type == SDL_KEYDOWN) {
 				switch (windowEvent.key.keysym.sym) {
 				case SDLK_w:
-					drawer.moveCamera(glm::vec3(0.0f, 5.0f, 0.0f));
+					drawer.moveCamera(glm::vec3(0.0f, 16.0f, 0.0f));
 					break;
 				case SDLK_s:
-					drawer.moveCamera(glm::vec3(0.0f, -5.0f, 0.0f));
+					drawer.moveCamera(glm::vec3(0.0f, -16.0f, 0.0f));
 					break;
 				case SDLK_a:
-					drawer.moveCamera(glm::vec3(-5.0f, 0.0f, 0.0f));
+					drawer.moveCamera(glm::vec3(-16.0f, 0.0f, 0.0f));
 					break;
 				case SDLK_d:
-					drawer.moveCamera(glm::vec3(5.0f, 0.0f, 0.0f));
+					drawer.moveCamera(glm::vec3(16.0f, 0.0f, 0.0f));
 					break;
 				}
 			}
@@ -190,11 +200,8 @@ int main(int argc, char *argv[])
 		spriteBatch.begin(GlyphSortType::FRONT_TO_BACK);
 
 		starmap.draw(spriteBatch);
-		spriteBatch.draw(glm::vec4(0.0f,0.0f,64.0f,64.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), texcache.getTexture("image.png"), 0.0f, ColorRGBA8(255,255,255,128) , 0.0f);
-		spriteBatch.draw(glm::vec4(64.0f,64.0f, 600.0f, 800.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), texcache.getTexture("image2.png"), 0.0f, ColorRGBA8(255,255,255,128), 0.0f);
+	
 		ship.draw(spriteBatch);
-
-		spriteBatch.draw(glm::vec4(0.0f, 0.0f, 64.0f, 64.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), texcache.getTexture("image.png"), 0.0f, ColorRGBA8(255, 255, 255, 128), 0.0f);
 		
 
 		spriteBatch.end();
