@@ -5,7 +5,7 @@
 #include "TextureCache.h"
 
 #include "Tile.h"
-
+#include "Npc.h"
 
 
 
@@ -23,6 +23,7 @@ public:
 private:
 
 	Tile tiles[1024];
+	std::vector<Npc> npcs;
 
 };
 

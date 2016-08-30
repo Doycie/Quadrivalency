@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Npc.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="Starmap.cpp" />
@@ -127,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="Npc.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="Starmap.h" />

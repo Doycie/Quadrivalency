@@ -33,18 +33,30 @@ void Ship::addTile(char floorType, TextureCache texCache, int x)
 {
 
 
-	if (x < 1024 && x >= 0) {
+	if (x <= 1024 && x >= 0) {
 		if (tiles[x]._exist) {
 			tiles[x]._exist = false;
 		}
 		else {
 			tiles[x].init(floorType, texCache, tiles, x);
 			tiles[x]._exist = true;
-			tiles[tiles, x - 1].updateTileTex(texCache, tiles, x - 1);
-			tiles[tiles, x + 1].updateTileTex(texCache, tiles, x + 1);
-			tiles[tiles, x - 32].updateTileTex(texCache, tiles, x - 32);
-			tiles[tiles, x + 32].updateTileTex(texCache, tiles, x + 32);
+		}
 
+		if (x > 0) {
+			tiles[tiles, x - 1].updateTileTex(texCache, tiles, x - 1);
+		}
+
+		if (x < 1024) {
+			tiles[tiles, x + 1].updateTileTex(texCache, tiles, x + 1);
+		}
+
+		if (x > 31)
+		{
+			tiles[tiles, x - 32].updateTileTex(texCache, tiles, x - 32);
+		}
+
+		if (x < 992) {
+			tiles[tiles, x + 32].updateTileTex(texCache, tiles, x + 32);
 		}
 	}
 }
