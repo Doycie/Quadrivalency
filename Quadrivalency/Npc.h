@@ -1,16 +1,44 @@
 #pragma once
+#include "SpriteBatch.h"
+#include "TextureCache.h"
+#include "Tile.h"
 class Npc
 {
 public:
-	Npc();
+	Npc(TextureCache texCache);
 	~Npc();
 
-	void update();
-	void draw();
+	void update(Tile tiles[1024]);
+	void draw(SpriteBatch &spriteBatch);
+
+	void setTargetTile(int x);
 
 private:
-	int x;
-	int y;
 
+	struct Node {
+		Node(Node *parent,int x, float f, float g, float h ) {
+			_parent = parent;
+			_x = x;
+			_f = f;
+			_g = g;
+			_h = h;
+		}
+		Node *_parent;
+		int _x, _y;
+		float _f,_g, _h;
+	};
+	void findPath(Tile tiles[1024]);
+
+	int _xTile;
+	
+	int _x;
+	int _y;
+
+	std::vector<Node> path;
+
+	GLuint _tex;
+	float _angle;
+
+	
 };
 

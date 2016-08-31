@@ -20,10 +20,14 @@ public:
 	void update();
 	void addTile(char floorType, TextureCache texCache, int x);
 
-private:
+	std::vector<Npc> npcs;
 
 	Tile tiles[1024];
-	std::vector<Npc> npcs;
+
+
+private:
+
+	
 
 };
 

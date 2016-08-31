@@ -163,7 +163,18 @@ int main(int argc, char *argv[])
 					}
 				}
 				if (windowEvent.button.button == SDL_BUTTON_RIGHT) {
+					int x, y;
+					SDL_GetMouseState(&x, &y);
+					glm::vec2 coords = drawer.getWorldCoordinates(glm::vec2(x, y));
 
+					if (coords.x >= 0 && coords.x <= 2048 && y >= 0 && y <= 2048) {
+
+
+						ship.npcs[0].setTargetTile((int)((coords.y) / 64) * 32 + (coords.x / 64));
+						for (std::vector<Npc>::iterator it = ship.npcs.begin(); it != ship.npcs.end(); it++) {
+							it->update(ship.tiles);
+						}
+					}
 				}
 			}
 			if (windowEvent.type == SDL_MOUSEWHEEL) {
@@ -206,6 +217,10 @@ int main(int argc, char *argv[])
 
 		spriteBatch.end();
 		spriteBatch.renderBatch();
+
+
+
+		ship.update();
 
 		SDL_GL_SwapWindow(window);
 

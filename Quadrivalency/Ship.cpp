@@ -21,6 +21,9 @@ Ship::Ship(TextureCache texCache)
 
 	addTile(1, texCache, (32 * 15) + 17);
 	addTile(1, texCache, (32 * 17) + 15);
+
+	npcs.push_back(Npc(texCache));
+
 }
 
 
@@ -63,7 +66,7 @@ void Ship::addTile(char floorType, TextureCache texCache, int x)
 
 
 void Ship::update() {
-
+	
 }
 
 void Ship::draw(SpriteBatch &spriteBatch) {
@@ -72,6 +75,8 @@ void Ship::draw(SpriteBatch &spriteBatch) {
 		if(tiles[i]._exist)
 		tiles[i].draw(spriteBatch, i % 32, (int)i / 32);
 	}
-	
+	for (std::vector<Npc>::iterator it = npcs.begin(); it != npcs.end(); it++) {
+		it->draw(spriteBatch);
+	}
 
 }
