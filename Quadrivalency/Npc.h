@@ -24,7 +24,7 @@ private:
 			_h = h;
 		}
 		Node *_parent;
-		int _x, _y;
+		int _x;
 		float _f,_g, _h;
 	};
 	void findPath(Tile tiles[1024]);
@@ -34,7 +34,7 @@ private:
 	int _x;
 	int _y;
 
-	std::vector<Node> path;
+	std::vector<int> path;
 
 	GLuint _tex;
 	float _angle;

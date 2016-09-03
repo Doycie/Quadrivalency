@@ -1,5 +1,5 @@
 #include "Npc.h"
-
+#include "Math.h"
 
 
 Npc::Npc(TextureCache texCache)
@@ -33,9 +33,9 @@ void Npc::update(Tile tiles[1024])
 
 void Npc::draw(SpriteBatch &spriteBatch) {
 	spriteBatch.draw(glm::vec4(_x,_y,32,32),glm::vec4(0.0f,0.0f,1.0f,1.0f),_tex,1.0f,ColorRGBA8(255,255,255,255),_angle);
-	for (std::vector<Node>::iterator it = path.begin(); it != path.end(); it++) {
-		int dx = (it->_x % 32)*64;
-		int dy = (it->_x / 32)*64;
+	for (std::vector<int>::iterator it = path.begin(); it != path.end(); it++) {
+		int dx = (*it % 32)*64;
+		int dy = floor(*it / 32)*64;
 		
 		spriteBatch.draw(glm::vec4(dx, dy, 32, 32), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), _tex, 1.0f, ColorRGBA8(255, 255, 255, 255), _angle);
 	}
@@ -56,15 +56,17 @@ void Npc::findPath(Tile tiles[1024]) {
 
 	int currentTile = _x / 64 + (_y / 64) * 32;
 	
-	openList.push_back(Node(nullptr,currentTile,0,0,0 ));
+	
+	openList.push_back(Node(NULL,currentTile,0,0,0 ));
 
 	while(openList.size() > 0){
-		Node Q(nullptr, 0,  9999, 0, 0);
+		Node tmpn(nullptr, 0, 9999, 0, 0);
+		Node* Q = &tmpn;
 		std::vector<Node>::iterator it;
 		std::vector<Node>::iterator lowestIt;
 		for (it = openList.begin(); it != openList.end();it++) {
-			if (it->_f < Q._f) {
-				Q = *it;
+			if (it->_f < Q->_f) {
+				Q = &(*it);
 				lowestIt = it;
 			}
 		}
@@ -72,12 +74,12 @@ void Npc::findPath(Tile tiles[1024]) {
 
 		std::vector<Node> children;
 
-		int qTileLoc = Q._x;
+		int qTileLoc = Q->_x;
 		for (int i =  -1; i < 2; i++) {
 			for (int k = -32; k < 33; k+=32) {
-				if (i != 0 && k != 0) {
+				if (qTileLoc + i + k != qTileLoc) {
 					if (tiles[qTileLoc + i + k]._exist) {
-						children.push_back(Node(&Q, qTileLoc + i + k, 0, 0, 0));
+						children.push_back(Node(Q, qTileLoc + i + k, 0, 0, 0));
 					}
 				}
 			}
@@ -85,12 +87,32 @@ void Npc::findPath(Tile tiles[1024]) {
 	
 		for (it = children.begin(); it != children.end(); it++) {
 			if (it->_x == _xTile) {
+
+				path.clear();
+
+				path.push_back(it->_x);
+
+				if (it->_parent == NULL) {
+					std::cout << "QWE";
+					return;
+				}
+				Node* np = it->_parent;
+
+				while (np->_parent->_x != currentTile) {
+					path.push_back(np->_x);
+					std::cout << path.size() << std::endl;
+					if (np->_parent == NULL) {
+						std::cout << "ASDADS";
+						return;
+					}
+					np = np->_parent;
 				
-				path = openList;
+				}
+			
 				return;
 			}
 			else {
-				it->_g = Q._g + 10;
+				it->_g = Q->_g + 10;
 				it->_h = 100;
 				it->_f = it->_g + it->_h;
 
@@ -113,7 +135,7 @@ void Npc::findPath(Tile tiles[1024]) {
 
 
 			}
-			closedList.push_back(Q);
+			closedList.push_back(*Q);
 		}
 
 
