@@ -36,6 +36,9 @@ public:
 private: 
 	static const int _amountOfStarTypes = 4;
 
+
+	void renderToTexture(SpriteBatch &spriteBatch);
+
 	//random seed to generate
 	int _seed = 213312;
 

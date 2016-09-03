@@ -16,7 +16,7 @@ public:
 private:
 
 	struct Node {
-		Node(Node *parent,int x, float f, float g, float h ) {
+		Node(Node *parent,int x, float f, float g, float   h ) {
 			_parent = parent;
 			_x = x;
 			_f = f;
@@ -28,6 +28,8 @@ private:
 		float _f,_g, _h;
 	};
 	void findPath(Tile tiles[1024]);
+
+	int calculateH(int x);
 
 	int _xTile;
 	
