@@ -2,6 +2,9 @@
 #include "SpriteBatch.h"
 #include "TextureCache.h"
 #include "Tile.h"
+#include <list>    
+
+
 class Npc
 {
 public:
