@@ -48,6 +48,9 @@
     <ClCompile Include="PathFinder.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
+    <ClCompile Include="Utility.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TextureCache.h">
@@ -75,6 +78,9 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>

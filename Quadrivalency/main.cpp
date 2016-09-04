@@ -169,10 +169,8 @@ int main(int argc, char *argv[])
 
 					if (coords.x >= 0 && coords.x <= 2048 && y >= 0 && y <= 2048) {
 
-
-						ship.npcs[0].setTargetTile((int)((coords.y) / 64) * 32 + (coords.x / 64));
 						for (std::vector<Npc>::iterator it = ship.npcs.begin(); it != ship.npcs.end(); it++) {
-							it->update(ship.tiles);
+							it->setPath((int)((coords.y) / 64) * 32 + (coords.x / 64), ship.tiles);
 						}
 					}
 				}
@@ -199,6 +197,9 @@ int main(int argc, char *argv[])
 			}
 		}
 
+		for (std::vector<Npc>::iterator it = ship.npcs.begin(); it != ship.npcs.end(); it++) {
+			it->update();
+		}
 
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

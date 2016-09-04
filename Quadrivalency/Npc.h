@@ -4,6 +4,8 @@
 #include "Tile.h"
 #include "Node.h"
 #include "PathFinder.h"
+#include "Utility.h"
+#include <math.h>
 #include <list>    
 
 
@@ -13,12 +15,15 @@ public:
 	Npc(TextureCache texCache);
 	~Npc();
 
-	void update(Tile tiles[1024]);
+	void update();
 	void draw(SpriteBatch &spriteBatch);
 
-	void setTargetTile(int x);
+	void setPath(int x, Tile tiles[1024]);
+
+	int getTile();
 
 private:
+	int movementSpeed = 5;
 
 	int _xTile;
 	
