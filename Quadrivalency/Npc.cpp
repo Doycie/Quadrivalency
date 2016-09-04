@@ -26,6 +26,7 @@ void Npc::update()
 		int targetY = Utility::getYFromInt(path.back());
 		
 		float angle = atan2((targetY - _y),(targetX - _x));
+		
 
 		_x += movementSpeed * cos(angle);
 		_y += movementSpeed * sin(angle);

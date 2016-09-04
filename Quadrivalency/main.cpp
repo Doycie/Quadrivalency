@@ -21,6 +21,7 @@
 #include "TextureCache.h"
 #include "Drawer.h"
 #include "SpriteBatch.h"
+#include "SpriteFont.h"
 
 #include "Ship.h"
 #include "Starmap.h"
@@ -127,6 +128,7 @@ int main(int argc, char *argv[])
 	Drawer drawer(shaderProgram);
 
 	SpriteBatch spriteBatch;
+	SpriteFont * spriteFont = new SpriteFont("Fonts/chintzy.ttf", 64);
 
 	spriteBatch.init(drawer.vao,drawer.vbo);
 
