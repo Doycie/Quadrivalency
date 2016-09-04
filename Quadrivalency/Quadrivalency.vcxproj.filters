@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{0318acdd-d1d2-4dda-8ea8-426ab62d98fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utility">
+      <UniqueIdentifier>{2eac9cd9-faef-4516-b6a8-ed2a32e315b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,6 +45,9 @@
     <ClCompile Include="Npc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PathFinder.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TextureCache.h">
@@ -61,6 +70,12 @@
     </ClInclude>
     <ClInclude Include="Npc.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

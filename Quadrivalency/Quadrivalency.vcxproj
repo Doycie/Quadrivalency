@@ -121,6 +121,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Npc.cpp" />
     <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="Starmap.cpp" />
     <ClCompile Include="TextureCache.cpp" />
@@ -128,7 +129,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Npc.h" />
+    <ClInclude Include="PathFinder.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="Starmap.h" />
