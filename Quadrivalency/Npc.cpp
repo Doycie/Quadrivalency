@@ -51,6 +51,8 @@ void Npc::setTargetTile(int x)
 void Npc::findPath(Tile tiles[1024]) {
 	std::vector<Node> fullList;
 
+	fullList.reserve(1000);
+
 	std::vector<Node> openList;
 	std::vector<Node> closedList;
 
@@ -122,7 +124,7 @@ void Npc::findPath(Tile tiles[1024]) {
 					std::cout << "QWE";
 					return;
 				}
-				Node* np = it->_parent;
+				Node* np = Q;
 				 //filling out the rest of the path
 				while (np->_parent->_x != currentTile) {
 					path.push_back(np->_x);
