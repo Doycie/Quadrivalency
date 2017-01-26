@@ -4,22 +4,30 @@
 #include <glm\glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <math.h>
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 1366
+#define WINDOW_HEIGHT 768
 
 class Drawer
 {
 public:
-	Drawer(GLuint shaderProgram);
+
+	Drawer();
 	~Drawer();
+
+	void init(GLuint shaderProgram);
 
 	GLint uniTrans;
 
 	glm::vec3 cameraPos;
+	glm::vec3 desiredPos;
+	glm::vec3 cameraSpeed;
+
 	float cameraAngle;
 
 	void moveCamera(glm::vec3 pos);
+	void setCamera(glm::vec3 pos);
 
 	glm::mat4 trans;
 

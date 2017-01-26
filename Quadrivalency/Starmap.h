@@ -26,8 +26,12 @@ struct Star
 class Starmap {
 
 public:
-	Starmap(TextureCache texCache);
+
+	Starmap();
+	
 	~Starmap();
+
+	void init(TextureCache texCache);
 
 	void draw(SpriteBatch &spriteBatch);
 

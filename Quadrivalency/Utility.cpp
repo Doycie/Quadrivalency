@@ -8,10 +8,10 @@ int Utility::getTileYFromInt(int x) {
 };
 
 int Utility::getXFromInt(int x) {
-	return (x % 32) * 32 * 2;
+	return (x % 32) * 32 * 2 + 16;
 };
 int Utility::getYFromInt(int x) {
-	return ((x - x % 32) / 32) * 32 * 2;
+	return ((x - x % 32) / 32) * 32 * 2 + 16;
 };
 
 int Utility::getXFromYAndX(int x, int y) {

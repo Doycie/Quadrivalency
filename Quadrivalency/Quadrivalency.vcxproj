@@ -118,7 +118,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Drawer.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Npc.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="PathFinder.cpp" />
@@ -131,6 +133,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="MainGame.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Npc.h" />
     <ClInclude Include="PathFinder.h" />

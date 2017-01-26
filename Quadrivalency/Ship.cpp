@@ -6,9 +6,13 @@ Ship::Ship()
 {
 }
 
-Ship::Ship(TextureCache texCache)
+
+Ship::~Ship()
 {
-	
+
+}
+
+void Ship::init(TextureCache texCache) {
 	addTile(1, texCache, (32 * 16) + 16);
 
 	addTile(1, texCache, (32 * 17) + 16);
@@ -23,13 +27,6 @@ Ship::Ship(TextureCache texCache)
 	addTile(1, texCache, (32 * 17) + 15);
 
 	npcs.push_back(Npc(texCache));
-
-}
-
-
-Ship::~Ship()
-{
-
 }
 
 void Ship::addTile(char floorType, TextureCache texCache, int x)

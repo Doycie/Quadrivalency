@@ -2,20 +2,22 @@
 #include <string> 
 
 
-Starmap::Starmap(TextureCache texCache)
+Starmap::Starmap()
 {
-	for (int i = 0; i < _amountOfStarTypes; i++) {
-		_starSprite[i] = texCache.getTexture("star" + std::to_string(i) + ".png");
-	}
-	GenerateSector(Positionbla(0,0));
-	update(Positionbla(0, 0));
 }
+
 
 Starmap::~Starmap()
 {
 
 }
-
+void Starmap::init(TextureCache texCache) {
+	for (int i = 0; i < _amountOfStarTypes; i++) {
+		_starSprite[i] = texCache.getTexture("star" + std::to_string(i) + ".png");
+	}
+	GenerateSector(Positionbla(0, 0));
+	update(Positionbla(0, 0));
+}
 void Starmap::draw(SpriteBatch &spriteBatch)
 {
 	int TiSi_BASE = 16;

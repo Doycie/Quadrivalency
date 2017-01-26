@@ -13,8 +13,10 @@ class Ship
 {
 public:
 	Ship();
-	Ship(TextureCache texCache);
+	
 	~Ship();
+
+	void init(TextureCache texCache);
 
 	void draw(SpriteBatch& spriteBatch);
 	void update();
