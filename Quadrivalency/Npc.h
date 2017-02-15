@@ -6,8 +6,7 @@
 #include "PathFinder.h"
 #include "Utility.h"
 #include <math.h>
-#include <list>    
-
+#include <list>
 
 class Npc
 {
@@ -26,7 +25,7 @@ private:
 	int movementSpeed = 5;
 
 	int _xTile;
-	
+
 	int _x;
 	int _y;
 
@@ -34,7 +33,4 @@ private:
 
 	GLuint _tex;
 	float _angle;
-
-	
 };
-

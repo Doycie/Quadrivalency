@@ -32,9 +32,10 @@ public:
 	glm::mat4 trans;
 
 	glm::mat4 _orthoMatrix;
-	
+
 	void updateCamera();
 	glm::vec2 getWorldCoordinates(glm::vec2 coords);
+	glm::vec4 Drawer::getScreenBounds();
 
 	GLuint vao;
 	GLuint vbo;
@@ -48,4 +49,3 @@ public:
 		-0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f  // Bottom-left
 	};
 };
-

@@ -1,10 +1,5 @@
 #include "SpriteFont.h"
 
-
-
-#include <SDL/SDL.h>
-
-
 int closestPow2(int i) {
 	i--;
 	int pi = 1;
@@ -17,7 +12,6 @@ int closestPow2(int i) {
 
 #define MAX_TEXTURE_RES 4096
 
-
 SpriteFont::SpriteFont(const char* font, int size, char cs, char ce) {
 	init(font, size, cs, ce);
 }
@@ -28,7 +22,6 @@ void SpriteFont::init(const char* font, int size) {
 
 void SpriteFont::init(const char* font, int size, char cs, char ce) {
 	// Initialize SDL_ttf
-	
 	if (!TTF_WasInit()) {
 		TTF_Init();
 	}
@@ -55,7 +48,7 @@ void SpriteFont::init(const char* font, int size, char cs, char ce) {
 		i++;
 	}
 
-	// Find best partitioning of glyphs
+	//// Find best partitioning of glyphs
 	int rows = 1, w, h, bestWidth = 0, bestHeight = 0, area = MAX_TEXTURE_RES * MAX_TEXTURE_RES, bestRows = 0;
 	std::vector<int>* bestPartition = nullptr;
 	while (rows <= _regLength) {
@@ -259,9 +252,14 @@ void SpriteFont::draw(SpriteBatch& batch, const char* s, glm::vec2 position, glm
 			if (gi < 0 || gi >= _regLength)
 				gi = _regLength;
 			glm::vec4 destRect(tp, _glyphs[gi].size * scaling);
-			batch.draw(destRect, _glyphs[gi].uvRect, _texID, depth, tint);
+			//batch.draw(destRect, _glyphs[gi].uvRect, _texID, depth, tint);
+
+		//	if(gi % 2 ==0)
+		//	batch.draw(destRect, glm::vec4(_glyphs[gi].uvRect.x, _glyphs[gi].uvRect.y , _glyphs[gi].uvRect.z, -_glyphs[gi].uvRect.w), _texID, depth, tint);
+			if (gi % 1 == 0)
+				batch.draw(destRect, glm::vec4(_glyphs[gi].uvRect.x, -_glyphs[gi].uvRect.y, _glyphs[gi].uvRect.z, -_glyphs[gi].uvRect.w), _texID, depth, tint);
+
 			tp.x += _glyphs[gi].size.x * scaling.x;
 		}
 	}
 }
-

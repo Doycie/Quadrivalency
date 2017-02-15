@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <list>
 
-
 struct Positionbla {
 	Positionbla() :x(0), y(0) {}
 	Positionbla(int px, int py) :x(px), y(py) {}
@@ -24,11 +23,10 @@ struct Star
 };
 
 class Starmap {
-
 public:
 
 	Starmap();
-	
+
 	~Starmap();
 
 	void init(TextureCache texCache);
@@ -37,9 +35,8 @@ public:
 
 	void update(Positionbla pos);
 
-private: 
+private:
 	static const int _amountOfStarTypes = 4;
-
 
 	void renderToTexture(SpriteBatch &spriteBatch);
 
@@ -57,7 +54,7 @@ private:
 	std::list<Star>::const_iterator iterator;
 
 	std::list<Star> _currentSector;
-//	std::map<Positionbla, std::list<Star>>  _sectors;
+	//	std::map<Positionbla, std::list<Star>>  _sectors;
 
 	void GenerateSector(Positionbla pos);
 };

@@ -4,7 +4,6 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-
 struct Position {
 	float x;
 	float y;
@@ -24,36 +23,36 @@ struct UV {
 	float v;
 };
 
-	//The vertex definition
+//The vertex definition
 struct Vertex {
-//This is the position struct. When you store a struct or class
-//inside of another struct or class, it is called composition. This is
-//layed out exactly the same in memory as if we had a float position[2],
-//but doing it this way makes more sense.
-Position position;
+	//This is the position struct. When you store a struct or class
+	//inside of another struct or class, it is called composition. This is
+	//layed out exactly the same in memory as if we had a float position[2],
+	//but doing it this way makes more sense.
+	Position position;
 
-//4 bytes for r g b a color.
-ColorRGBA8 color;
+	//4 bytes for r g b a color.
+	ColorRGBA8 color;
 
-//UV texture coordinates.
-UV uv;
+	//UV texture coordinates.
+	UV uv;
 
-void setPosition(float x, float y) {
-	position.x = x;
-	position.y = y;
-}
+	void setPosition(float x, float y) {
+		position.x = x;
+		position.y = y;
+	}
 
-void setColor(GLubyte r, GLubyte g, GLubyte b, GLubyte a) {
-	color.r = r;
-	color.g = g;
-	color.b = b;
-	color.a = a;
-}
+	void setColor(GLubyte r, GLubyte g, GLubyte b, GLubyte a) {
+		color.r = r;
+		color.g = g;
+		color.b = b;
+		color.a = a;
+	}
 
-void setUV(float u, float v) {
-	uv.u = u;
-	uv.v = v;
-}
+	void setUV(float u, float v) {
+		uv.u = u;
+		uv.v = v;
+	}
 };
 
 enum class GlyphSortType {
@@ -92,7 +91,6 @@ public:
 	GLuint numVertices;
 	GLuint texture;
 };
-
 
 class SpriteBatch
 {
@@ -144,5 +142,3 @@ private:
 	std::vector<Glyph> _glyphs; ///< These are the actual glyphs
 	std::vector<RenderBatch> _renderBatches;
 };
-
-

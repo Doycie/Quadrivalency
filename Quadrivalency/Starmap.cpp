@@ -1,15 +1,12 @@
 #include "Starmap.h"
-#include <string> 
-
+#include <string>
 
 Starmap::Starmap()
 {
 }
 
-
 Starmap::~Starmap()
 {
-
 }
 void Starmap::init(TextureCache texCache) {
 	for (int i = 0; i < _amountOfStarTypes; i++) {
@@ -42,15 +39,14 @@ void Starmap::renderToTexture(SpriteBatch &spriteBatch)
 
 void Starmap::GenerateSector(Positionbla pos)
 {
-//	std::list<Star> sector;
+	//	std::list<Star> sector;
 	srand(_seed);
 	for (int i = 0; i < _amount; i++) {
 		Star star = Star(rand() % _length - _length * 0.5, rand() % _length - _length * 0.5, rand() % 4, rand() % 5 + 1);
 		_currentSector.push_back(star);
 	}
-//	_sectors.insert(std::pair<Pos, std::list<Star>>(pos, sector));
+	//	_sectors.insert(std::pair<Pos, std::list<Star>>(pos, sector));
 }
 void Starmap::update(Positionbla pos) {
-//	_currentSector = _sectors[pos];
+	//	_currentSector = _sectors[pos];
 }
-

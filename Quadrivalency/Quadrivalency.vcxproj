@@ -79,7 +79,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;$(SolutionDir)deps\lib\SDL\x86\SDL2.lib;$(SolutionDir)deps\lib\SDL\x86\SDL2main.lib;$(SolutionDir)deps\lib\GLEW\x86\glew32s.lib;$(SolutionDir)deps\lib\SOIL\x86\SOIL.lib;$(SolutionDir)deps\lib\SDL\x86\SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;$(SolutionDir)deps\lib\SDL\x86\SDL2.lib;$(SolutionDir)deps\lib\SDL\x86\SDL2main.lib;$(SolutionDir)deps\lib\GLEW\x86\glew32s.lib;$(SolutionDir)deps\lib\SOIL\x86\SOIL.lib;$(SolutionDir)deps\lib\SDL\x86\SDL2_ttf.lib;$(SolutionDir)deps\lib\BOX2D\x86\Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -117,34 +117,46 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Charactar.cpp" />
     <ClCompile Include="Drawer.cpp" />
+    <ClCompile Include="DynamicEntity.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Npc.cpp" />
+    <ClCompile Include="PlayingState.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="SpriteFont.cpp" />
     <ClCompile Include="Starmap.cpp" />
+    <ClCompile Include="StaticEntity.cpp" />
     <ClCompile Include="TextureCache.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Charactar.h" />
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="DynamicEntity.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Npc.h" />
     <ClInclude Include="PathFinder.h" />
+    <ClInclude Include="PlayingState.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="SpriteFont.h" />
     <ClInclude Include="Starmap.h" />
+    <ClInclude Include="StaticEntity.h" />
     <ClInclude Include="TextureCache.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

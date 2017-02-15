@@ -27,24 +27,20 @@
 #include "SpriteBatch.h"
 #include "SpriteFont.h"
 #include "InputManager.h"
-#include "Ship.h"
-#include "Starmap.h"
+#include "PlayingState.h"
 
-class MainGame 
+class MainGame
 {
 public:
 
 	MainGame();
 
 	void start();
-	
+
 private:
 
-	void draw();
-	void update();
-	void input();
+	PlayingState _playingState;
 
-	Drawer drawer;
 	SpriteBatch spriteBatch;
 	SpriteBatch hudSpriteBatch;
 
@@ -52,14 +48,17 @@ private:
 
 	SpriteFont * spriteFont;
 
-	TextureCache texcache;
+	Drawer drawer;
+
+	bool running;
+
 	SDL_Window* window;
 	SDL_Event windowEvent;
 
-	 bool running;
+	float camSpeed = 5.0f;
 
-	 float camSpeed = 5.0f;
+	//Ship ship;
+	//Starmap starmap;
 
-	Ship ship;
-	Starmap starmap;
+	//Ship2 ship;
 };

@@ -5,7 +5,6 @@
 Glyph::Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const ColorRGBA8& color) :
 	texture(Texture),
 	depth(Depth) {
-
 	topLeft.color = color;
 	topLeft.setPosition(destRect.x, destRect.y + destRect.w);
 	topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
@@ -26,7 +25,6 @@ Glyph::Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture,
 Glyph::Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const ColorRGBA8& color, float angle) :
 	texture(Texture),
 	depth(Depth) {
-
 	glm::vec2 halfDims(destRect.z / 2.0f, destRect.w / 2.0f);
 
 	// Get points centered at origin
@@ -74,7 +72,7 @@ SpriteBatch::~SpriteBatch()
 }
 
 void SpriteBatch::init(GLuint vao, GLuint vbo) {
-	createVertexArray( vao,  vbo);
+	createVertexArray(vao, vbo);
 }
 
 void SpriteBatch::dispose() {
@@ -125,8 +123,7 @@ void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuin
 }
 
 void SpriteBatch::renderBatch() {
-
-	// Bind our VAO. This sets up the opengl state we need, including the 
+	// Bind our VAO. This sets up the opengl state we need, including the
 	// vertex attribute pointers and it binds the VBO
 	glBindVertexArray(_vao);
 
@@ -165,7 +162,6 @@ void SpriteBatch::createRenderBatches() {
 
 	//Add all the rest of the glyphs
 	for (size_t cg = 1; cg < _glyphPointers.size(); cg++) {
-
 		// Check if this glyph can be part of the current batch
 		if (_glyphPointers[cg]->texture != _glyphPointers[cg - 1]->texture) {
 			// Make a new batch
@@ -193,18 +189,14 @@ void SpriteBatch::createRenderBatches() {
 
 	// Unbind the VBO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 }
 
-void SpriteBatch::createVertexArray(GLuint vao,GLuint vbo) {
-
+void SpriteBatch::createVertexArray(GLuint vao, GLuint vbo) {
 	_vao = vao;
 	_vbo = vbo;
-
 }
 
 void SpriteBatch::sortGlyphs() {
-
 	switch (_sortType) {
 	case GlyphSortType::BACK_TO_FRONT:
 		std::stable_sort(_glyphPointers.begin(), _glyphPointers.end(), compareBackToFront);

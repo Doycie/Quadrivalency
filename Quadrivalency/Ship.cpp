@@ -1,15 +1,11 @@
 #include "Ship.h"
 
-
-
 Ship::Ship()
 {
 }
 
-
 Ship::~Ship()
 {
-
 }
 
 void Ship::init(TextureCache texCache) {
@@ -31,8 +27,6 @@ void Ship::init(TextureCache texCache) {
 
 void Ship::addTile(char floorType, TextureCache texCache, int x)
 {
-
-
 	if (x <= 1024 && x >= 0) {
 		if (tiles[x]._exist) {
 			tiles[x]._exist = false;
@@ -61,19 +55,15 @@ void Ship::addTile(char floorType, TextureCache texCache, int x)
 	}
 }
 
-
 void Ship::update() {
-	
 }
 
 void Ship::draw(SpriteBatch &spriteBatch) {
-	
 	for (int i = 0; i < 1024; i++) {
-		if(tiles[i]._exist)
-		tiles[i].draw(spriteBatch, i % 32, (int)i / 32);
+		if (tiles[i]._exist)
+			tiles[i].draw(spriteBatch, i % 32, (int)i / 32);
 	}
 	for (std::vector<Npc>::iterator it = npcs.begin(); it != npcs.end(); it++) {
 		it->draw(spriteBatch);
 	}
-
 }

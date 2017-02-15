@@ -65,7 +65,6 @@ std::vector<int> PathFinder::findPath(Tile tiles[1024], int currentLocation, int
 		//go through all of it' s children
 		for (it = children.begin(); it != children.end(); it++) {
 			if (it->_x == destination) {
-
 				//if we've got a path, remove the previous path
 				path.clear();
 
@@ -82,7 +81,6 @@ std::vector<int> PathFinder::findPath(Tile tiles[1024], int currentLocation, int
 						return path;
 					}
 					np = np->_parent;
-
 				}
 
 				return path;
@@ -113,14 +111,10 @@ std::vector<int> PathFinder::findPath(Tile tiles[1024], int currentLocation, int
 					continue;
 
 				openList.push_back(*it);
-
-
 			}
 		}
 
 		closedList.push_back(*Q);
-
-
 	}
 
 	return path;

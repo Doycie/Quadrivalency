@@ -1,11 +1,9 @@
-
 #include "InputManager.h"
 #include <iostream>
 
 InputManager::InputManager() : _mouseCoords(0.0f)
 {
 }
-
 
 InputManager::~InputManager()
 {
@@ -76,6 +74,4 @@ bool InputManager::wasKeyDown(unsigned int keyID) {
 		// Didn't find the key
 		return false;
 	}
-
-
 }

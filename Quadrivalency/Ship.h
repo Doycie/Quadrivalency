@@ -7,13 +7,11 @@
 #include "Tile.h"
 #include "Npc.h"
 
-
-
 class Ship
 {
 public:
 	Ship();
-	
+
 	~Ship();
 
 	void init(TextureCache texCache);
@@ -26,10 +24,5 @@ public:
 
 	Tile tiles[1024];
 
-
 private:
-
-	
-
 };
-

@@ -12,4 +12,3 @@ struct Node {
 	int _x;
 	float _f, _g, _h;
 };
-

@@ -10,5 +10,4 @@ public:
 	static int getYFromInt(int x);
 
 	static int getXFromYAndX(int x, int y);
-
 };

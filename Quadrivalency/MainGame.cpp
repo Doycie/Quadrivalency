@@ -1,8 +1,6 @@
-
 #include "MainGame.h"
 
 bool readFileToBuffer(std::string filePath, std::string& buffer) {
-
 	std::ifstream file(filePath, std::ios::binary);
 	if (file.fail()) {
 		perror(filePath.c_str());
@@ -24,10 +22,8 @@ bool readFileToBuffer(std::string filePath, std::string& buffer) {
 	file.close();
 
 	return 1;
-
 }
 GLuint compileShader(const char* source, GLint type) {
-
 	GLuint shader = glCreateShader(type);
 	glShaderSource(shader, 1, &source, NULL);
 	glCompileShader(shader);
@@ -45,7 +41,6 @@ GLuint compileShader(const char* source, GLint type) {
 		exit(0);
 	}
 	else {
-
 		std::cout << "Shader compiled succesfully :D. Here is some info: " << std::endl;
 	}
 
@@ -57,143 +52,12 @@ GLuint compileShader(const char* source, GLint type) {
 	return shader;
 }
 
-
 MainGame::MainGame() {
-
 }
 
-void MainGame::draw() {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	drawer.updateCamera();
-
-	spriteBatch.begin(GlyphSortType::FRONT_TO_BACK);
-
-	//starmap.draw(spriteBatch);
-
-	ship.draw(spriteBatch);
-
-
-	spriteBatch.end();
-	spriteBatch.renderBatch();
-
-
-	hudSpriteBatch.begin();
-
-	char buffer[256];
-	sprintf_s(buffer, "GoodDay");
-	spriteFont->draw(hudSpriteBatch, buffer, glm::vec2(1024, 1024), glm::vec2(1.0f), 0.0f, ColorRGBA8(0, 255, 255, 255));
-
-	hudSpriteBatch.end();
-	hudSpriteBatch.renderBatch();
-
-
-	SDL_GL_SwapWindow(window);
-}
-
-void MainGame::input() {
-
-	inputManager.update();
-
-	while (SDL_PollEvent(&windowEvent))
-	{
-		switch (windowEvent.type) {
-		case SDL_QUIT:
-			running = false;
-			break;
-		case SDL_MOUSEMOTION:
-			inputManager.setMouseCoords((float)windowEvent.motion.x, (float)windowEvent.motion.y);
-			break;
-		case SDL_KEYDOWN:
-			inputManager.pressKey(windowEvent.key.keysym.sym);
-			break;
-		case SDL_KEYUP:
-			inputManager.releaseKey(windowEvent.key.keysym.sym);
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			inputManager.pressKey(windowEvent.button.button);
-			break;
-		case SDL_MOUSEBUTTONUP:
-			inputManager.releaseKey(windowEvent.button.button);
-			break;
-		case SDL_MOUSEWHEEL:
-			inputManager.setMouseWheel((float)windowEvent.wheel.y);
-			break;
-		}
-	}
-
-
-	if (inputManager.getMouseWheel() != 0.0f) {
-		drawer.moveCamera(glm::vec3(0.0f, 0.0f, inputManager.getMouseWheel() / 20.0f));
-	}
-
-	if (inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
-		int x, y;
-		SDL_GetMouseState(&x, &y);
-		glm::vec2 coords = drawer.getWorldCoordinates(glm::vec2(x, y));
-
-		if (coords.x >= 0 && coords.x <= 2048 && y >= 0 && y <= 2048) {
-
-
-			ship.addTile(1, texcache, (int)((coords.y) / 64) * 32 + (coords.x / 64));
-
-		}
-
-	}
-
-	if (inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
-		int x, y;
-		SDL_GetMouseState(&x, &y);
-		glm::vec2 coords = drawer.getWorldCoordinates(glm::vec2(x, y));
-
-		if (coords.x >= 0 && coords.x <= 2048 && y >= 0 && y <= 2048) {
-
-			for (std::vector<Npc>::iterator it = ship.npcs.begin(); it != ship.npcs.end(); it++) {
-				it->setPath((int)((coords.y) / 64) * 32 + (coords.x / 64), ship.tiles);
-			}
-		}
-	}
-
-
-	if (inputManager.isKeyPressed(SDLK_ESCAPE)) {
-		running = false;
-	}
-
-	if (inputManager.isKeyDown(SDLK_w)) {
-		drawer.moveCamera(glm::vec3(0.0f, camSpeed, 0.0f));
-	}
-	if (inputManager.isKeyDown(SDLK_s)) {
-		drawer.moveCamera(glm::vec3(0.0f, -camSpeed, 0.0f));
-	}
-	if (inputManager.isKeyDown(SDLK_a)) {
-		drawer.moveCamera(glm::vec3(-camSpeed, 0.0f, 0.0f));
-	}
-	if (inputManager.isKeyDown(SDLK_d)) {
-		drawer.moveCamera(glm::vec3(camSpeed, 0.0f, 0.f));
-	}
-
-}
-
-void MainGame::update() {
-
-	for (std::vector<Npc>::iterator it = ship.npcs.begin(); it != ship.npcs.end(); it++) {
-		it->update();
-	}
-
-
-	ship.update();
-
-
-}
-
-
-void MainGame::start(){
-
+void MainGame::start() {
 	//SDL INITIALISATION
 	SDL_Init(SDL_INIT_VIDEO);
-
-
 
 	//SDL OPENGL WINDOW CREATION
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -207,7 +71,6 @@ void MainGame::start(){
 	//GLEW FOR MODERN OPENGL
 	glewExperimental = GL_TRUE;
 	glewInit();
-
 
 	//LOAD SHADERS
 	std::string buffer;
@@ -227,39 +90,39 @@ void MainGame::start(){
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	drawer.init(shaderProgram);
-	spriteFont = new SpriteFont("Fonts/chintzy.ttf",40);
-
 
 	spriteBatch.init(drawer.vao, drawer.vbo);
 	hudSpriteBatch.init(drawer.vao, drawer.vbo);
 
-
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	ship.init(texcache);
-	starmap.init(texcache);
+	//ship.init(texcache);
+	//starmap.init(texcache);
+
+	running = true;
+
+	_playingState.init(&drawer, &running);
 
 	//glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	running = true;
+	drawer.setCamera(glm::vec3(1000.0f, 400.0f, 1.0f));
 
-
-	drawer.setCamera(glm::vec3(1024.0f, 1024.0f, 1.0f));
-
-
-
+	spriteFont = new SpriteFont("Fonts/sans.ttf", 60);
 
 	int ticks = 0;
+	int tickticks = 0;
 	unsigned int lastTime = 0, currentTimeInt, seconds = 0;
 
 	double oldTime = SDL_GetTicks();
 
 	while (running)
 	{
-
 		ticks++;
+		tickticks++;
+		////spriteFont = new SpriteFont("Fonts/sans.ttf", 60,tickticks,126);
+		////SDL_Delay(100);
 
 		currentTimeInt = static_cast<double>(SDL_GetTicks());
 		if (currentTimeInt > lastTime + 1000) {
@@ -272,21 +135,53 @@ void MainGame::start(){
 			seconds = 0;
 		}
 
-		
-
-
-		while (double(SDL_GetTicks() - oldTime) /1000.0< 1.0 / 60.0) {
+		while (double(SDL_GetTicks() - oldTime) / 1000.0 < 1.0 / 60.0) {
 			SDL_Delay(1);
-			
 		}
 
 		oldTime = SDL_GetTicks();
-		
-		input();
-		update();
-		draw();
-	
-		
+
+		inputManager.update();
+
+		while (SDL_PollEvent(&windowEvent))
+		{
+			switch (windowEvent.type) {
+			case SDL_QUIT:
+				running = false;
+				break;
+			case SDL_MOUSEMOTION:
+				inputManager.setMouseCoords((float)windowEvent.motion.x, (float)windowEvent.motion.y);
+				break;
+			case SDL_KEYDOWN:
+				inputManager.pressKey(windowEvent.key.keysym.sym);
+				break;
+			case SDL_KEYUP:
+				inputManager.releaseKey(windowEvent.key.keysym.sym);
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				inputManager.pressKey(windowEvent.button.button);
+				break;
+			case SDL_MOUSEBUTTONUP:
+				inputManager.releaseKey(windowEvent.button.button);
+				break;
+			case SDL_MOUSEWHEEL:
+				inputManager.setMouseWheel((float)windowEvent.wheel.y);
+				break;
+			}
+		}
+
+		_playingState.input(inputManager);
+
+		_playingState.update();
+
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		drawer.updateCamera();
+		_playingState.draw(spriteBatch);
+		_playingState.drawHud(hudSpriteBatch, spriteFont);
+
+		SDL_GL_SwapWindow(window);
 	}
 
 	glDeleteProgram(shaderProgram);
@@ -296,7 +191,4 @@ void MainGame::start(){
 	SDL_GL_DeleteContext(context);
 
 	SDL_Quit();
-	
-
 }
-

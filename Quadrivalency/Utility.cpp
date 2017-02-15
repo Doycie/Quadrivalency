@@ -17,4 +17,3 @@ int Utility::getYFromInt(int x) {
 int Utility::getXFromYAndX(int x, int y) {
 	return (x + y * 32);
 };
-

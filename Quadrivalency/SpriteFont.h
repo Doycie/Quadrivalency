@@ -21,18 +21,13 @@ Modified By: Benjamin Arnold
 
 #pragma once
 
-
-
 #include <SDL\SDL_ttf.h>
 #include <glm/glm.hpp>
 #include <map>
 #include <vector>
+#include <SDL/SDL.h>
 
 #include "SpriteBatch.h";
-
-
-struct GLTexture;
-class SpriteBatch;
 
 struct CharGlyph {
 public:
@@ -70,6 +65,8 @@ public:
 	/// Measures the dimensions of the text
 	glm::vec2 measure(const char* s);
 
+	unsigned int _texID;
+
 	/// Draws using a spritebatch
 	void draw(SpriteBatch& batch, const char* s, glm::vec2 position, glm::vec2 scaling,
 		float depth, ColorRGBA8 tint, Justification just = Justification::LEFT);
@@ -79,8 +76,4 @@ private:
 	int _regStart, _regLength;
 	CharGlyph* _glyphs;
 	int _fontHeight;
-
-	unsigned int _texID;
 };
-
-

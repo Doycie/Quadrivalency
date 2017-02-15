@@ -3,10 +3,7 @@
 #include "TextureCache.h"
 #include "SpriteBatch.h"
 
-
-
 class Tile {
-
 public:
 
 	Tile();
@@ -15,12 +12,10 @@ public:
 	bool _exist;
 
 	void draw(SpriteBatch &spriteBatch, int x, int y);
-	void updateTileTex(TextureCache texCache, Tile tiles[1024],int x);
-
+	void updateTileTex(TextureCache& texCache, Tile tiles[1024], int x);
 
 private:
 
 	GLuint _tex;
 	char _type;
-
 };
