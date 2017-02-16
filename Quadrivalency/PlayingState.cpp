@@ -8,6 +8,9 @@ PlayingState::PlayingState()
 
 PlayingState::~PlayingState()
 {
+
+	socket.Close();
+
 	for (unsigned int i = 0; i < _entities.size(); i++) {
 		_world->DestroyBody(_entities[i]->getBody());
 	}
@@ -142,7 +145,7 @@ void PlayingState::input(InputManager& inputManager) {
 
 		std::string s = std::to_string((int)_entities[0]->getBody()->GetPosition().x);
 		//const char data[] = s.c_str();
-		socket.Send(Address(127, 0, 0, 1, port), s.c_str(), sizeof(s.c_str()));
+		socket.Send(Address(84, 25, 93, 43, port), s.c_str(), sizeof(s.c_str()));
 		std::cout << "SENT\n";
 	}
 
@@ -176,12 +179,23 @@ void PlayingState::update() {
 		unsigned char buffer[256] = "";
 
 		int bytes_read = socket.Receive(sender, buffer, sizeof(buffer));
-		if (!bytes_read)
+		if (bytes_read <= 0)
 			break;
 
 		//process packet
 	
-		printf((const  char *)buffer);
+		printf((const  char *)buffer );
+		printf("\n");
+
+		std::string s = std::to_string((int)sender.GetAddressIP()[0]) + "."
+			+ std::to_string((int)sender.GetAddressIP()[1])+ "."+
+			std::to_string((int)sender.GetAddressIP()[2]) +"."+ 
+			std::to_string((int)sender.GetAddressIP()[3]);
+		printf(s.c_str());
+		printf(":");
+		printf(std::to_string((int)sender.GetPort()).c_str());
+		printf("\n");
+
 		break;
 	}
 

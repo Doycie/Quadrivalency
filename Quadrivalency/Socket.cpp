@@ -10,14 +10,18 @@ Socket::Socket()
 }
 
 
-Socket::~Socket()
+void Socket::Close()
 {
 #if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
-		close(socket);
+	close(this->handle);
 #elif PLATFORM == PLATFORM_WINDOWS
-	closesocket(handle);
+	closesocket(this->handle);
 #endif
-	ShutdownSockets();
+}
+
+Socket::~Socket()
+{
+
 }
 bool Socket::InitializeSockets()
 {
@@ -188,3 +192,12 @@ unsigned short Address::GetPort() const
 {
 	return this->port;
 }
+char* Address::GetAddressIP() const {
+
+	char buffer[4] = "";
+	buffer[0] = address >> 24;
+	buffer[1] = address >> 16;
+	buffer[2] = address >> 8;
+	buffer[3] = address >> 0;
+	return buffer;
+ }

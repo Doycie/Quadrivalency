@@ -45,6 +45,7 @@ public:
 		unsigned short port);
 	unsigned int GetAddress() const;
 	unsigned short GetPort() const;
+	char* GetAddressIP() const;
 
 private:
 	void init(unsigned int address, unsigned short port);
