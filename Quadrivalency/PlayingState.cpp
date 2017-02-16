@@ -1,13 +1,18 @@
 #include "PlayingState.h"
 
+
+
 PlayingState::PlayingState()
 {
 }
 
 PlayingState::~PlayingState()
 {
-	for (int i = 0; i < _entities.size(); i++) {
-		_world->DestroyBody(_entities[i].getBody());
+	for (unsigned int i = 0; i < _entities.size(); i++) {
+		_world->DestroyBody(_entities[i]->getBody());
+	}
+	for (unsigned int i = 0; i < _entities.size(); i++) {
+		delete _entities[i];
 	}
 
 	delete _world;
@@ -19,13 +24,29 @@ void PlayingState::init(Drawer * drawer, bool* running) {
 	tex = texCache.getTexture("image2.png");
 	_world = new b2World(b2Vec2(0.0f, -9.81f));
 
-	Charactar e;
-	e.init(glm::vec2(50.0f, 50.0f), glm::vec2(64.0f,64.0f), _world, texCache);
+	Charactar *e = new Charactar();
+	e->init(glm::vec2(5, 10), glm::vec2(1,1), _world, texCache);
 	_entities.push_back(e);
 
-	Wall w;
-	w.init(glm::vec2(0.0f, 0.0f), glm::vec2(2048.0f, 64.0f), _world, texCache);
+	Wall* w = new Wall();
+	w->init(glm::vec2(0, 0), glm::vec2(32, 1), _world, texCache);
 	_entities.push_back(w);
+
+
+	
+	if (!socket.Open(port))
+	{
+		printf("failed to create socket!\n");
+
+	}
+
+	// send a packet
+
+	
+
+	// receive packets
+
+	
 
 }
 
@@ -58,9 +79,11 @@ void PlayingState::draw(SpriteBatch& spriteBatch) {
 
 	//ship.draw(spriteBatch);
 
-	for (auto i : _entities) {
-		i.draw(spriteBatch);
+
+	for (unsigned int i = 0; i < _entities.size(); i++) {
+		_entities[i]->draw(spriteBatch);
 	}
+
 	//spriteBatch.draw(glm::vec4(0,0, 2000, 500), glm::vec4(0, 0, 1, -1.0f), spriteFont->_texID, 1.0f, ColorRGBA8(255, 255, 255, 255));
 	spriteBatch.end();
 	spriteBatch.renderBatch();
@@ -114,6 +137,14 @@ void PlayingState::input(InputManager& inputManager) {
 	if (inputManager.isKeyDown(SDLK_d)) {
 		x++;
 	}
+	if (inputManager.isKeyPressed(SDLK_SPACE)) {
+		std::cout << "SENDING UDP PACKETS THROUGH HYPER SPACE\n";
+
+		std::string s = std::to_string((int)_entities[0]->getBody()->GetPosition().x);
+		//const char data[] = s.c_str();
+		socket.Send(Address(127, 0, 0, 1, port), s.c_str(), sizeof(s.c_str()));
+		std::cout << "SENT\n";
+	}
 
 	glm::vec3 camSpeedMultiplier(4.0f, 4.0f, 4.0f);
 	if (inputManager.isKeyDown(SDLK_LSHIFT)) {
@@ -129,15 +160,35 @@ void PlayingState::input(InputManager& inputManager) {
 		_drawer->moveCamera(glm::normalize(mov) * camSpeed * camSpeedMultiplier);
 	}
 
-	for (auto i : _entities) {
-		i.input(inputManager);
+	for (unsigned int i = 0; i < _entities.size(); i++) {
+		_entities[i]->input(inputManager);
 	}
 }
 
 void PlayingState::update() {
+	
+
+	// create socket
+
+	while (true)
+	{
+		Address sender;
+		unsigned char buffer[256] = "";
+
+		int bytes_read = socket.Receive(sender, buffer, sizeof(buffer));
+		if (!bytes_read)
+			break;
+
+		//process packet
+	
+		printf((const  char *)buffer);
+		break;
+	}
+
+
 	_world->Step(timeStep, velocityIterations, positionIterations);
 
-	for (auto i : _entities) {
-		i.update();
+	for (unsigned int i = 0; i < _entities.size(); i++) {
+		_entities[i]->update();
 	}
 }

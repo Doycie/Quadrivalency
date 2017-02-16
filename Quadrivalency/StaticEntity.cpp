@@ -19,7 +19,7 @@ void StaticEntity::init(glm::vec2 position, glm::vec2 size, b2World * world, Tex
 	_bodyDef.type = b2_staticBody; //this will be a static body
 	_bodyDef.position.Set(position.x, position.y); //set the starting position
 	_bodyDef.angle = 0; //set the starting angle
-	_dynamicBody = world->CreateBody(&_bodyDef);
+	_body = world->CreateBody(&_bodyDef);
 
 	b2PolygonShape boxShape;
 	boxShape.SetAsBox(_size.x, _size.y);
@@ -27,6 +27,6 @@ void StaticEntity::init(glm::vec2 position, glm::vec2 size, b2World * world, Tex
 	b2FixtureDef boxFixtureDef;
 	boxFixtureDef.shape = &boxShape;
 	boxFixtureDef.density = 1;
-	_dynamicBody->CreateFixture(&boxFixtureDef);
+	_body->CreateFixture(&boxFixtureDef);
 
 }

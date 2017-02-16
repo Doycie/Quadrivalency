@@ -11,20 +11,21 @@ public:
 	Entity();
 	~Entity();
 
-	virtual void init(glm::vec2 position, glm::vec2 size, b2World * world, TextureCache &texCache, bool staticBody = false);
+	virtual void init(glm::vec2 position, glm::vec2 size, b2World * world, TextureCache &texCache);
 
 	virtual void draw(SpriteBatch& spriteBatch);
 
 	virtual void update();
+
 	virtual void input(InputManager& inputManager);
 
 	b2Body* getBody() {
-		return _dynamicBody;
+		return _body;
 	}
 
 protected:
 
-	b2Body* _dynamicBody;
+	b2Body* _body;
 
 	b2BodyDef _bodyDef;
 

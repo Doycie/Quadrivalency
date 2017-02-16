@@ -41,11 +41,12 @@ GLuint compileShader(const char* source, GLint type) {
 		exit(0);
 	}
 	else {
-		std::cout << "Shader compiled succesfully :D. Here is some info: " << std::endl;
+	//	std::cout << "Shader compiled succesfully :D. Here is some info: " << std::endl;
 	}
 
-	if (shaderlog[1] = ' ')
-		std::cout << "Nevermind no info was found. Shader seems fine. I hope..." << std::endl;
+	if (shaderlog[1] = ' ') {
+		//std::cout << "Nevermind no info was found. Shader seems fine. I hope..." << std::endl;
+	}
 	else
 		std::cout << shaderlog << std::endl;
 

@@ -9,7 +9,7 @@ public:
 
 	void init(glm::vec2 position, glm::vec2 size, b2World * world, TextureCache &texCache);
 
-	void input(InputManager& inputManager) override ;
+	virtual void input(InputManager& inputManager);
 
 
 

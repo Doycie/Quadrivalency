@@ -128,6 +128,7 @@
     <ClCompile Include="PlayingState.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="PathFinder.cpp" />
+    <ClCompile Include="Socket.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="SpriteFont.cpp" />
     <ClCompile Include="Starmap.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="PlayingState.h" />
     <ClInclude Include="Ship.h" />
+    <ClInclude Include="Socket.h" />
     <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="SpriteFont.h" />
     <ClInclude Include="Starmap.h" />

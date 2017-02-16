@@ -29,6 +29,7 @@ Modified By: Benjamin Arnold
 
 #include "SpriteBatch.h";
 
+
 struct CharGlyph {
 public:
 	char character;

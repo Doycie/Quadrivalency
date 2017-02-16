@@ -29,6 +29,11 @@
 #include "drawer.h"
 #include "Charactar.h"
 #include "Wall.h"
+#include "Socket.h"
+
+
+
+
 class PlayingState
 {
 public:
@@ -43,12 +48,15 @@ public:
 	void input(InputManager& inputManager);
 
 private:
+	const int port = 30000;
+	Socket socket;
+
 
 	float timeStep = 1 / 20.0;
-	int velocityIterations = 6;
-	int positionIterations = 2;
+	int velocityIterations = 8;
+	int positionIterations = 3;
 
-	std::vector<Entity> _entities;
+	std::vector<Entity*> _entities;
 
 	Drawer * _drawer;
 	bool * _running;

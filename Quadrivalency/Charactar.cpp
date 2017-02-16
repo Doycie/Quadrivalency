@@ -17,15 +17,20 @@ void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, Textur
 	_tex = texCache.getTexture("Npc.png");
 }
 
-void Charactar::input(InputManager& inputManager) {
+ void Charactar::input(InputManager& inputManager) {
 
-	std::cout << "CHARACTAR INPUT";
+	
 	if (inputManager.isKeyDown(SDLK_RIGHT)) {
-		_dynamicBody->ApplyForceToCenter(b2Vec2(50.0f, 0.0f), true);
+		
+		_body->ApplyLinearImpulse(b2Vec2(5, 0), _body->GetWorldCenter(),true);
 	}
 
 	if (inputManager.isKeyDown(SDLK_LEFT)) {
-		_dynamicBody->ApplyForceToCenter(b2Vec2(-50.0f, 0.0f), true);
+		_body->ApplyLinearImpulseToCenter(b2Vec2(-5, 0), true);
+	}
+
+	if (inputManager.isKeyDown(SDLK_UP)) {
+		_body->ApplyLinearImpulseToCenter(b2Vec2(0, 10), true);
 	}
 
 }
