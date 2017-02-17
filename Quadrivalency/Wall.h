@@ -7,7 +7,7 @@ public:
 	Wall();
 	~Wall();
 
-	void init(glm::vec2 position, glm::vec2 size, b2World * world, TextureCache &texCache);
+	void init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint tex);
 
 	virtual void input(InputManager & inputManager) {};
 

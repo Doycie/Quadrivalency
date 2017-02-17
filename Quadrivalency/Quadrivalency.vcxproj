@@ -117,10 +117,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Charactar.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="DynamicEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityBody.cpp" />
+    <ClCompile Include="EntityVisual.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
@@ -139,10 +142,13 @@
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="Charactar.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="DynamicEntity.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityBody.h" />
+    <ClInclude Include="EntityVisual.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Node.h" />

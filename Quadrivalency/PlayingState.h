@@ -30,8 +30,8 @@
 #include "Charactar.h"
 #include "Wall.h"
 #include "Socket.h"
-
-
+#include "Ball.h"
+#include "EntityVisual.h"
 
 
 class PlayingState

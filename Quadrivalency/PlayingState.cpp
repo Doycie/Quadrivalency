@@ -12,7 +12,8 @@ PlayingState::~PlayingState()
 	socket.Close();
 
 	for (unsigned int i = 0; i < _entities.size(); i++) {
-		_world->DestroyBody(_entities[i]->getBody());
+		if(!( dynamic_cast<EntityBody*>(_entities[i]) == nullptr))
+		_world->DestroyBody(dynamic_cast<EntityBody*>(_entities[i])->getBody());
 	}
 	for (unsigned int i = 0; i < _entities.size(); i++) {
 		delete _entities[i];
@@ -24,17 +25,44 @@ PlayingState::~PlayingState()
 void PlayingState::init(Drawer * drawer, bool* running) {
 	_drawer = drawer;
 	_running = running;
-	tex = texCache.getTexture("image2.png");
+
 	_world = new b2World(b2Vec2(0.0f, -9.81f));
-
+	//CHARACTAR
 	Charactar *e = new Charactar();
-	e->init(glm::vec2(5, 10), glm::vec2(1,1), _world, texCache);
+	e->init(glm::vec2(5, 10), glm::vec2(1,2), _world, texCache.getTexture("Assets/birbSheet.png"));
 	_entities.push_back(e);
-
+	//GROUND
 	Wall* w = new Wall();
-	w->init(glm::vec2(0, 0), glm::vec2(32, 1), _world, texCache);
+	w->init(glm::vec2(0, -4), glm::vec2(96, 8), _world, texCache.getTexture("Assets/grass.png"));
 	_entities.push_back(w);
+	//BOX
+	Wall* w2 = new Wall();
+	w2->init(glm::vec2(0, 1), glm::vec2(1, 2),_world, texCache.getTexture("Assets/box.png"));
+	_entities.push_back(w2);
+	//CASTLE
+	//EntityVisual* h = new EntityVisual();
+	//h->init(glm::vec2(0, 16), glm::vec2(32, 32),  texCache.getTexture("Assets/castle.png"));
+	//_entities.push_back(h);
 
+	EntityVisual* i = new EntityVisual();
+	i->init(glm::vec2(0, -0.05f), glm::vec2(96, 2), texCache.getTexture("Assets/grassfield.png"));
+	_entities.push_back(i);
+
+	//LEFT GOAL
+	Wall* f = new Wall();
+	f->init(glm::vec2(-20,8), glm::vec2(5, 16), _world, texCache.getTexture("Assets/image2.png"));
+	_entities.push_back(f);
+
+	//RIGHT GOAL
+	Wall* g = new Wall();
+	g->init(glm::vec2(20, 8), glm::vec2(5, 16), _world, texCache.getTexture("Assets/image2.png"));
+	_entities.push_back(g);
+
+
+	//BALL
+	Ball* b = new Ball();
+	b->init(glm::vec2(5, 12), glm::vec2(0.75f, 0.75f), _world, texCache.getTexture("Assets/ball.png"));
+	_entities.push_back(b);
 
 	
 	if (!socket.Open(port))
@@ -143,9 +171,9 @@ void PlayingState::input(InputManager& inputManager) {
 	if (inputManager.isKeyPressed(SDLK_SPACE)) {
 		std::cout << "SENDING UDP PACKETS THROUGH HYPER SPACE\n";
 
-		std::string s = std::to_string((int)_entities[0]->getBody()->GetPosition().x);
+		std::string s = std::to_string((int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x);
 		//const char data[] = s.c_str();
-		socket.Send(Address(84, 25, 93, 43, port), s.c_str(), sizeof(s.c_str()));
+		socket.Send(Address(127, 0, 0, 1, port), s.c_str(), sizeof(s.c_str()));
 		std::cout << "SENT\n";
 	}
 
@@ -163,7 +191,9 @@ void PlayingState::input(InputManager& inputManager) {
 		_drawer->moveCamera(glm::normalize(mov) * camSpeed * camSpeedMultiplier);
 	}
 
-	for (unsigned int i = 0; i < _entities.size(); i++) {
+	dynamic_cast<Charactar*>(_entities[0])->input(inputManager, _entities);
+
+	for (unsigned int i = 1; i < _entities.size(); i++) {
 		_entities[i]->input(inputManager);
 	}
 }

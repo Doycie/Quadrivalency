@@ -11,7 +11,7 @@ public:
 	Entity();
 	~Entity();
 
-	virtual void init(glm::vec2 position, glm::vec2 size, b2World * world, TextureCache &texCache);
+	virtual void init(glm::vec2 position, glm::vec2 size, b2World * world,GLuint tex);
 
 	virtual void draw(SpriteBatch& spriteBatch);
 
@@ -19,17 +19,15 @@ public:
 
 	virtual void input(InputManager& inputManager);
 
-	b2Body* getBody() {
-		return _body;
-	}
 
 protected:
 
-	b2Body* _body;
-
-	b2BodyDef _bodyDef;
-
+	
 	GLuint _tex;
 
 	glm::vec2 _size;
-};
+
+ 
+ 
+ 
+ };
