@@ -219,11 +219,11 @@ void PlayingState::update() {
 	
 	if (_connected) {
 		unsigned char buffer[256];
-		int x = (int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x;
-		int y = (int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().y;
+		float x = (int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x;
+		float y = (int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().y;
 
 		memcpy(&buffer, &x, sizeof(x));
-		memcpy(&buffer + sizeof(x), &y, sizeof(x));
+		memcpy(&buffer[sizeof(y)]  , &y, sizeof(y));
 		socket.Send(Address(laptop.GetAddress(), laptop.GetPort()), buffer, sizeof(buffer));
 	}
 //	std::cout << "SENT\n";
@@ -245,14 +245,17 @@ void PlayingState::update() {
 		}
 
 		
-		int x;
+		float x;
 		memcpy(&x, &buffer , sizeof(x));
-		int y;
-		memcpy(&y, &buffer + sizeof(y), sizeof(y));
+		float y;
+		memcpy(&y, &buffer[sizeof(y)] , sizeof(y));
 
 		//sscanf_s(bufferX, "%d", &x);
 		//sscanf_s(bufferY, "%d", &y);
-		std::cout << x + " + " + y << std::endl;
+		std::cout << x;
+		std::cout << " ";
+		std::cout << y << std::endl;
+		
 		dynamic_cast<EntityBody*>(_entities[1])->getBody()->SetTransform(b2Vec2(x,y),0.0f);
 		/*std::string s = std::to_string((int)sender.GetAddressIP()[0]) + "."
 			+ std::to_string((int)sender.GetAddressIP()[1])+ "."+
