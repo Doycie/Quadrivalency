@@ -61,6 +61,7 @@ private:
 	Drawer * _drawer;
 	bool * _running;
 	bool _host;
+	bool _connected =false;
 
 	b2World* _world;
 

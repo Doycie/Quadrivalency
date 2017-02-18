@@ -217,12 +217,15 @@ void PlayingState::update() {
 	
 	//SEND
 	
-	
-	std::string s = std::to_string((int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x );
-	s += " ";
-	s += std::to_string((int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().y);
-	s += " ";
-	socket.Send(Address(laptop.GetAddress(), laptop.GetPort()), s.c_str(), sizeof(s.c_str()));
+	if (_connected) {
+		unsigned char buffer[256];
+		int x = (int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x;
+		int y = (int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().y;
+
+		memcpy(&buffer, &x, sizeof(x));
+		memcpy(&buffer + sizeof(x), &y, sizeof(x));
+		socket.Send(Address(laptop.GetAddress(), laptop.GetPort()), buffer, sizeof(buffer));
+	}
 //	std::cout << "SENT\n";
 
 	//RECEIVE
@@ -234,30 +237,23 @@ void PlayingState::update() {
 		unsigned char buffer[256] = "";
 
 		int bytes_read = socket.Receive(sender, buffer, sizeof(buffer));
-		if (bytes_read <= 0 || buffer[0] == 20)
+		if (bytes_read <= 0 )
 			break;
-
-
-		 char bufferX[32] = "";
-		 char bufferY[32] = "";
-
-		int i = 0;
-
-		while (buffer[i] != 20 && i < 30) {
-			bufferX[i] = buffer[i];
-			i++;
-		}
-		i++;
-		while (buffer[i] != 20 && i < 30) {
-			bufferY[i] = buffer[i];
+		if (buffer[0] == 20) {
+			_connected = true;
+			break;
 		}
 
 		
+		int x;
+		memcpy(&x, &buffer , sizeof(x));
+		int y;
+		memcpy(&y, &buffer + sizeof(y), sizeof(y));
 
-		int x, y;
-		sscanf_s(bufferX, "%d", &x);
-		sscanf_s(bufferY, "%d", &y);
-		//dynamic_cast<EntityBody*>(_entities[1])->getBody()->SetTransform(b2Vec2(x,y),0.0f);
+		//sscanf_s(bufferX, "%d", &x);
+		//sscanf_s(bufferY, "%d", &y);
+		std::cout << x + " + " + y << std::endl;
+		dynamic_cast<EntityBody*>(_entities[1])->getBody()->SetTransform(b2Vec2(x,y),0.0f);
 		/*std::string s = std::to_string((int)sender.GetAddressIP()[0]) + "."
 			+ std::to_string((int)sender.GetAddressIP()[1])+ "."+
 			std::to_string((int)sender.GetAddressIP()[2]) +"."+ 

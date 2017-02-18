@@ -58,7 +58,7 @@ MainGame::MainGame() {
 
 void MainGame::start() {
 
-	bool host = false;
+	bool host = true;
 	//std::cout << "Host (h) or client (c)? \n";
 	//char c;
 	//std::cin >> c;
