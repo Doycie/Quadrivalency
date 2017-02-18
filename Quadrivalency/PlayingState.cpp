@@ -173,7 +173,7 @@ void PlayingState::input(InputManager& inputManager) {
 
 		std::string s = std::to_string((int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x);
 		//const char data[] = s.c_str();
-		socket.Send(Address(127, 0, 0, 1, port), s.c_str(), sizeof(s.c_str()));
+		socket.Send(Address(192, 168, 178, 115, port), s.c_str(), sizeof(s.c_str()));
 		std::cout << "SENT\n";
 	}
 

@@ -86,7 +86,7 @@ void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint
 		 float y = _body->GetPosition().y - b->getBody()->GetPosition().y;
 
 		 if (sqrt(x*x + y*y) < 2) {
-			 b->getBody()->ApplyLinearImpulse(b2Vec2(-x , -y ), b2Vec2(0, 0),true);
+			 b->getBody()->ApplyLinearImpulseToCenter(b2Vec2(x < 0 ? 5:-5,y <0 ? 5:-5),true);
 		 }
 	 }
 
