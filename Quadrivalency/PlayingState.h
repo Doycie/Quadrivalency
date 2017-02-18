@@ -40,7 +40,7 @@ public:
 	PlayingState();
 	~PlayingState();
 
-	void init(Drawer * drawer, bool* running);
+	void init(Drawer * drawer, bool* running, bool host);
 
 	void draw(SpriteBatch& spriteBatch);
 	void drawHud(SpriteBatch& hudSpriteBatch, SpriteFont * spriteFont);
@@ -50,7 +50,7 @@ public:
 private:
 	const int port = 30000;
 	Socket socket;
-
+	Address laptop;
 
 	float timeStep = 1 / 20.0;
 	int velocityIterations = 8;
@@ -60,6 +60,7 @@ private:
 
 	Drawer * _drawer;
 	bool * _running;
+	bool _host;
 
 	b2World* _world;
 

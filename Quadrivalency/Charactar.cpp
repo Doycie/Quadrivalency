@@ -11,9 +11,10 @@ Charactar::~Charactar()
 {
 }
 
-void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint tex)
+void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint tex, bool internet)
 {
-
+	_internet = internet;
+	
 	_size = size;
 
 
@@ -60,7 +61,12 @@ void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint
  void Charactar::input(InputManager& inputManager,std::vector<Entity*> entities) {
 
 
+	 if (_internet) {
+		
+	 }
+	 else {
 
+	
 	 if (inputManager.isKeyDown(SDLK_LEFT)) {
 		 _body->ApplyForceToCenter(b2Vec2(-50.0, 0.0), true);
 		 _direction = -1;
@@ -80,7 +86,7 @@ void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint
 		 _isPunching = true;
 		 _punchCooldown = 60;
 
-		 Ball* b = dynamic_cast<Ball*>(entities[6]);
+		 Ball* b = dynamic_cast<Ball*>(entities[7]);
 
 		 float x = _body->GetPosition().x - b->getBody()->GetPosition().x;
 		 float y = _body->GetPosition().y - b->getBody()->GetPosition().y;
@@ -125,7 +131,7 @@ void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint
 		 }
 	 }
 
-
+	 }
 
 	
 

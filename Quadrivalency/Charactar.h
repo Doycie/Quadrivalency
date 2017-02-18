@@ -11,13 +11,15 @@ public:
 	Charactar();
 	~Charactar();
 
-	void init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint tex);
+	void init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint tex, bool internet);
 
 	virtual void input(InputManager& inputManager,std::vector<Entity*> entities);
 	virtual void draw(SpriteBatch& SpriteBatch);
 
 private:
 
+
+	bool _internet;
 	b2Fixture* _fixtures[3];
 	int _direction = 1;
 	bool _isPunching = false;

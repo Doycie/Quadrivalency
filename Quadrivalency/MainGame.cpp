@@ -57,6 +57,14 @@ MainGame::MainGame() {
 }
 
 void MainGame::start() {
+
+	bool host = false;
+	//std::cout << "Host (h) or client (c)? \n";
+	//char c;
+	//std::cin >> c;
+	//if (c == 'h') {
+	//	host = true;
+	//}
 	//SDL INITIALISATION
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -102,7 +110,7 @@ void MainGame::start() {
 
 	running = true;
 
-	_playingState.init(&drawer, &running);
+	_playingState.init(&drawer, &running, host);
 
 	//glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);

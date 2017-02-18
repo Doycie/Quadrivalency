@@ -22,15 +22,19 @@ PlayingState::~PlayingState()
 	delete _world;
 }
 
-void PlayingState::init(Drawer * drawer, bool* running) {
+void PlayingState::init(Drawer * drawer, bool* running, bool host) {
 	_drawer = drawer;
 	_running = running;
-
+	_host = host;
 	_world = new b2World(b2Vec2(0.0f, -9.81f));
 	//CHARACTAR
 	Charactar *e = new Charactar();
-	e->init(glm::vec2(5, 10), glm::vec2(1,2), _world, texCache.getTexture("Assets/birbSheet.png"));
+	e->init(glm::vec2(5, 10), glm::vec2(1,2), _world, texCache.getTexture("Assets/birbSheet.png"),false);
 	_entities.push_back(e);
+
+	Charactar *k = new Charactar();
+	k->init(glm::vec2(5, 10), glm::vec2(1, 2), _world, texCache.getTexture("Assets/birbSheet.png"),true);
+	_entities.push_back(k);
 	//GROUND
 	Wall* w = new Wall();
 	w->init(glm::vec2(0, -4), glm::vec2(96, 8), _world, texCache.getTexture("Assets/grass.png"));
@@ -77,8 +81,23 @@ void PlayingState::init(Drawer * drawer, bool* running) {
 
 	// receive packets
 
-	
-
+	if (!host) {
+		Address add = Address(192,168,178,115,30000);
+		std::cout << "Sending to: \n";
+		std::string f = std::to_string((int)add.GetAddressIP()[0]) + "."
+			+ std::to_string((int)add.GetAddressIP()[1]) + "." +
+			std::to_string((int)add.GetAddressIP()[2]) + "." +
+			std::to_string((int)add.GetAddressIP()[3]);
+		std::cout << (f.c_str());
+		std::cout << ":";
+		printf(std::to_string((int)add.GetPort()).c_str());
+		std::cout << "\n";
+		std::string s = " ";
+		//const char data[] = s.c_str();
+		//socket.Send(Address(192, 168, 0, 102, port), s.c_str(), sizeof(s.c_str()));
+		socket.Send(Address(add.GetAddress(), add.GetPort()), s.c_str(), sizeof(s.c_str()));
+		std::cout << "SENT\n";
+	}
 }
 
 void PlayingState::drawHud(SpriteBatch& hudSpriteBatch, SpriteFont * spriteFont) {
@@ -169,12 +188,7 @@ void PlayingState::input(InputManager& inputManager) {
 		x++;
 	}
 	if (inputManager.isKeyPressed(SDLK_SPACE)) {
-		std::cout << "SENDING UDP PACKETS THROUGH HYPER SPACE\n";
-
-		std::string s = std::to_string((int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x);
-		//const char data[] = s.c_str();
-		socket.Send(Address(192, 168, 178, 115, port), s.c_str(), sizeof(s.c_str()));
-		std::cout << "SENT\n";
+		
 	}
 
 	glm::vec3 camSpeedMultiplier(4.0f, 4.0f, 4.0f);
@@ -192,6 +206,7 @@ void PlayingState::input(InputManager& inputManager) {
 	}
 
 	dynamic_cast<Charactar*>(_entities[0])->input(inputManager, _entities);
+	dynamic_cast<Charactar*>(_entities[1])->input(inputManager, _entities);
 
 	for (unsigned int i = 1; i < _entities.size(); i++) {
 		_entities[i]->input(inputManager);
@@ -200,31 +215,61 @@ void PlayingState::input(InputManager& inputManager) {
 
 void PlayingState::update() {
 	
+	//SEND
+	
+	
+	std::string s = std::to_string((int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x );
+	s += " ";
+	s += std::to_string((int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().y);
+	s += " ";
+	socket.Send(Address(laptop.GetAddress(), laptop.GetPort()), s.c_str(), sizeof(s.c_str()));
+//	std::cout << "SENT\n";
 
-	// create socket
-
+	//RECEIVE
 	while (true)
 	{
 		Address sender;
+
+		
 		unsigned char buffer[256] = "";
 
 		int bytes_read = socket.Receive(sender, buffer, sizeof(buffer));
-		if (bytes_read <= 0)
+		if (bytes_read <= 0 || buffer[0] == 20)
 			break;
 
-		//process packet
-	
-		printf((const  char *)buffer );
-		printf("\n");
 
-		std::string s = std::to_string((int)sender.GetAddressIP()[0]) + "."
+		 char bufferX[32] = "";
+		 char bufferY[32] = "";
+
+		int i = 0;
+
+		while (buffer[i] != 20 && i < 30) {
+			bufferX[i] = buffer[i];
+			i++;
+		}
+		i++;
+		while (buffer[i] != 20 && i < 30) {
+			bufferY[i] = buffer[i];
+		}
+
+		
+
+		int x, y;
+		sscanf_s(bufferX, "%d", &x);
+		sscanf_s(bufferY, "%d", &y);
+		//dynamic_cast<EntityBody*>(_entities[1])->getBody()->SetTransform(b2Vec2(x,y),0.0f);
+		/*std::string s = std::to_string((int)sender.GetAddressIP()[0]) + "."
 			+ std::to_string((int)sender.GetAddressIP()[1])+ "."+
 			std::to_string((int)sender.GetAddressIP()[2]) +"."+ 
 			std::to_string((int)sender.GetAddressIP()[3]);
 		printf(s.c_str());
 		printf(":");
 		printf(std::to_string((int)sender.GetPort()).c_str());
-		printf("\n");
+		printf("\n");*/
+
+		
+
+		laptop = sender;
 
 		break;
 	}
