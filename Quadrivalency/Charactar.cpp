@@ -33,7 +33,7 @@ void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint
 	fixtureDef.filter.categoryBits = 0xFFF0;
 	fixtureDef.shape = &boxShape;
 	fixtureDef.density = 3;
-	fixtureDef.friction = 1;
+	fixtureDef.friction = 1.0f;
 	_fixtures[0] = _body->CreateFixture(&fixtureDef);
 
 	// Create the circles
@@ -43,7 +43,7 @@ void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint
 	b2FixtureDef circleDef;
 	circleDef.shape = &circleShape;
 	circleDef.density = 3;
-	circleDef.friction = 1;
+	circleDef.friction = 1.0f;
 	circleDef.filter.categoryBits = 0xFFF0;
 
 	// Bottom circle
@@ -68,11 +68,11 @@ void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint
 
 	
 	 if (inputManager.isKeyDown(SDLK_LEFT)) {
-		 _body->ApplyForceToCenter(b2Vec2(-50.0, 0.0), true);
+		 _body->ApplyForceToCenter(b2Vec2(-80.0, 0.0), true);
 		 _direction = -1;
 	 }
 	 else if (inputManager.isKeyDown(SDLK_RIGHT)) {
-		 _body->ApplyForceToCenter(b2Vec2(50.0, 0.0), true);
+		 _body->ApplyForceToCenter(b2Vec2(80.0, 0.0), true);
 		 _direction = 1;
 	 }
 	 else {
@@ -84,12 +84,12 @@ void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint
 	 // Check for punch
 	 if (inputManager.isKeyPressed(SDLK_x) && _punchCooldown <0) {
 		 _isPunching = true;
-		 _punchCooldown = 60;
+		 _punchCooldown = 30;
 
 		 Ball* b = dynamic_cast<Ball*>(entities[7]);
 
-		 float x = _body->GetPosition().x - b->getBody()->GetPosition().x;
-		 float y = _body->GetPosition().y - b->getBody()->GetPosition().y;
+		 float x = (_body->GetPosition().x) - b->getBody()->GetPosition().x;
+		 float y = (_body->GetPosition().y) - b->getBody()->GetPosition().y;
 
 		 if (sqrt(x*x + y*y) < 2) {
 			 b->getBody()->ApplyLinearImpulseToCenter(b2Vec2(x < 0 ? 5:-5,y <0 ? 5:-5),true);
@@ -124,7 +124,7 @@ void Charactar::init(glm::vec2 position, glm::vec2 size, b2World * world, GLuint
 				 _onGround = true;
 				 // We can jump
 				 if (inputManager.isKeyPressed(SDLK_z)) {
-					 _body->ApplyLinearImpulse(b2Vec2(0.0f, 50.0), b2Vec2(0.0f, 0.0f), true);
+					 _body->ApplyLinearImpulse(b2Vec2(0.0f, 70.0), b2Vec2(0.0f, 0.0f), true);
 					 break;
 				 }
 			 }

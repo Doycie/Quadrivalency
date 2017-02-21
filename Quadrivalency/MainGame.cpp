@@ -58,7 +58,7 @@ MainGame::MainGame() {
 
 void MainGame::start() {
 
-	bool host = true;
+	
 	//std::cout << "Host (h) or client (c)? \n";
 	//char c;
 	//std::cin >> c;
@@ -110,7 +110,7 @@ void MainGame::start() {
 
 	running = true;
 
-	_playingState.init(&drawer, &running, host);
+	_playingState.init(&drawer, &running);
 
 	//glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);

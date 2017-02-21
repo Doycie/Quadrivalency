@@ -22,10 +22,10 @@ PlayingState::~PlayingState()
 	delete _world;
 }
 
-void PlayingState::init(Drawer * drawer, bool* running, bool host) {
+void PlayingState::init(Drawer * drawer, bool* running) {
 	_drawer = drawer;
 	_running = running;
-	_host = host;
+
 	_world = new b2World(b2Vec2(0.0f, -9.81f));
 	//CHARACTAR
 	Charactar *e = new Charactar();
@@ -75,29 +75,6 @@ void PlayingState::init(Drawer * drawer, bool* running, bool host) {
 
 	}
 
-	// send a packet
-
-	
-
-	// receive packets
-
-	if (!host) {
-		Address add = Address(192,168,178,115,30000);
-		std::cout << "Sending to: \n";
-		std::string f = std::to_string((int)add.GetAddressIP()[0]) + "."
-			+ std::to_string((int)add.GetAddressIP()[1]) + "." +
-			std::to_string((int)add.GetAddressIP()[2]) + "." +
-			std::to_string((int)add.GetAddressIP()[3]);
-		std::cout << (f.c_str());
-		std::cout << ":";
-		printf(std::to_string((int)add.GetPort()).c_str());
-		std::cout << "\n";
-		std::string s = " ";
-		//const char data[] = s.c_str();
-		//socket.Send(Address(192, 168, 0, 102, port), s.c_str(), sizeof(s.c_str()));
-		socket.Send(Address(add.GetAddress(), add.GetPort()), s.c_str(), sizeof(s.c_str()));
-		std::cout << "SENT\n";
-	}
 }
 
 void PlayingState::drawHud(SpriteBatch& hudSpriteBatch, SpriteFont * spriteFont) {
@@ -124,11 +101,8 @@ void PlayingState::drawHud(SpriteBatch& hudSpriteBatch, SpriteFont * spriteFont)
 }
 void PlayingState::draw(SpriteBatch& spriteBatch) {
 	spriteBatch.begin(GlyphSortType::FRONT_TO_BACK);
-
 	//starmap.draw(spriteBatch);
-
 	//ship.draw(spriteBatch);
-
 
 	for (unsigned int i = 0; i < _entities.size(); i++) {
 		_entities[i]->draw(spriteBatch);
@@ -187,8 +161,28 @@ void PlayingState::input(InputManager& inputManager) {
 	if (inputManager.isKeyDown(SDLK_d)) {
 		x++;
 	}
-	if (inputManager.isKeyPressed(SDLK_SPACE)) {
+	if (inputManager.isKeyPressed(SDLK_h)){
+		std::cout << "Hosting... Listening...";
 		
+	}
+	if(inputManager.isKeyPressed(SDLK_j)){
+
+		Address add = Address(127, 0, 0, 1, 30000);
+		std::cout << "Client... Connecting to: ";
+		std::string f = std::to_string((int)add.GetAddressIP()[0]) + "."
+			+ std::to_string((int)add.GetAddressIP()[1]) + "." +
+			std::to_string((int)add.GetAddressIP()[2]) + "." +
+			std::to_string((int)add.GetAddressIP()[3]);
+		std::cout << (f.c_str());
+		std::cout << ":";
+		printf(std::to_string((int)add.GetPort()).c_str());
+		std::cout << "\n";
+		std::string s = " ";
+		//const char data[] = s.c_str();
+		//socket.Send(Address(192, 168, 0, 102, port), s.c_str(), sizeof(s.c_str()));
+		socket.Send(Address(add.GetAddress(), add.GetPort()), s.c_str(), sizeof(s.c_str()));
+
+	
 	}
 
 	glm::vec3 camSpeedMultiplier(4.0f, 4.0f, 4.0f);
@@ -212,19 +206,19 @@ void PlayingState::input(InputManager& inputManager) {
 		_entities[i]->input(inputManager);
 	}
 }
-
+int tick = 0;
 void PlayingState::update() {
-	
+	tick++;
 	//SEND
 	
 	if (_connected) {
-		unsigned char buffer[256];
+		unsigned char buffer[32];
 		float x = (int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x;
 		float y = (int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().y;
 
 		memcpy(&buffer, &x, sizeof(x));
 		memcpy(&buffer[sizeof(y)]  , &y, sizeof(y));
-		socket.Send(Address(laptop.GetAddress(), laptop.GetPort()), buffer, sizeof(buffer));
+		socket.Send(Address(_host.GetAddress(), _host.GetPort()), buffer, sizeof(buffer));
 	}
 //	std::cout << "SENT\n";
 
@@ -234,15 +228,18 @@ void PlayingState::update() {
 		Address sender;
 
 		
-		unsigned char buffer[256] = "";
+		unsigned char buffer[32] = "";
 
 		int bytes_read = socket.Receive(sender, buffer, sizeof(buffer));
-		if (bytes_read <= 0 )
-			break;
-		if (buffer[0] == 20) {
-			_connected = true;
+		if (bytes_read <= 0) {
+			if(tick %60 == 0)
+				std::cout << "Silence...";
 			break;
 		}
+
+		_host = sender;
+
+		_connected = true;
 
 		
 		float x;
@@ -265,10 +262,6 @@ void PlayingState::update() {
 		printf(":");
 		printf(std::to_string((int)sender.GetPort()).c_str());
 		printf("\n");*/
-
-		
-
-		laptop = sender;
 
 		break;
 	}
