@@ -167,7 +167,9 @@ void PlayingState::input(InputManager& inputManager) {
 	}
 	if(inputManager.isKeyPressed(SDLK_j)){
 
-		Address add = Address(127, 0, 0, 1, 30000);
+		Address add = Address(82, 217, 111, 144, 30000);
+
+
 		std::cout << "Client... Connecting to: ";
 		std::string f = std::to_string((int)add.GetAddressIP()[0]) + "."
 			+ std::to_string((int)add.GetAddressIP()[1]) + "." +
@@ -213,8 +215,8 @@ void PlayingState::update() {
 	
 	if (_connected) {
 		unsigned char buffer[32];
-		float x = (int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x;
-		float y = (int)dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().y;
+		float x = dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().x;
+		float y = dynamic_cast<EntityBody*>(_entities[0])->getBody()->GetPosition().y;
 
 		memcpy(&buffer, &x, sizeof(x));
 		memcpy(&buffer[sizeof(y)]  , &y, sizeof(y));
@@ -232,7 +234,7 @@ void PlayingState::update() {
 
 		int bytes_read = socket.Receive(sender, buffer, sizeof(buffer));
 		if (bytes_read <= 0) {
-			if(tick %60 == 0)
+			if(tick %120 == 0)
 				std::cout << "Silence...";
 			break;
 		}
@@ -249,9 +251,9 @@ void PlayingState::update() {
 
 		//sscanf_s(bufferX, "%d", &x);
 		//sscanf_s(bufferY, "%d", &y);
-		std::cout << x;
-		std::cout << " ";
-		std::cout << y << std::endl;
+		//std::cout << x;
+		//std::cout << " ";
+		//std::cout << y << std::endl;
 		
 		dynamic_cast<EntityBody*>(_entities[1])->getBody()->SetTransform(b2Vec2(x,y),0.0f);
 		/*std::string s = std::to_string((int)sender.GetAddressIP()[0]) + "."
