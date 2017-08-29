@@ -51,6 +51,7 @@ private:
 	const int port = 30000;
 	Socket socket;
 	Address _host;
+	bool _listening;
 
 	float timeStep = 1 / 20.0;
 	int velocityIterations = 8;

@@ -25,6 +25,7 @@ PlayingState::~PlayingState()
 void PlayingState::init(Drawer * drawer, bool* running) {
 	_drawer = drawer;
 	_running = running;
+	_listening = false;
 
 	_world = new b2World(b2Vec2(0.0f, -9.81f));
 	//CHARACTAR
@@ -69,11 +70,7 @@ void PlayingState::init(Drawer * drawer, bool* running) {
 	_entities.push_back(b);
 
 	
-	if (!socket.Open(port))
-	{
-		printf("failed to create socket!\n");
-
-	}
+	
 
 }
 
@@ -162,13 +159,23 @@ void PlayingState::input(InputManager& inputManager) {
 		x++;
 	}
 	if (inputManager.isKeyPressed(SDLK_h)){
+		if (!socket.Open(port))
+		{
+			printf("failed to create socket!\n");
+
+		}
+		_listening = true;
 		std::cout << "Hosting... Listening...";
 		
 	}
 	if(inputManager.isKeyPressed(SDLK_j)){
+		if (!socket.Open(port))
+		{
+			printf("failed to create socket!\n");
+
+		}
 
 		Address add = Address(82, 217, 111, 144, 30000);
-
 
 		std::cout << "Client... Connecting to: ";
 		std::string f = std::to_string((int)add.GetAddressIP()[0]) + "."
@@ -182,9 +189,9 @@ void PlayingState::input(InputManager& inputManager) {
 		std::string s = " ";
 		//const char data[] = s.c_str();
 		//socket.Send(Address(192, 168, 0, 102, port), s.c_str(), sizeof(s.c_str()));
+		_listening = true;
 		socket.Send(Address(add.GetAddress(), add.GetPort()), s.c_str(), sizeof(s.c_str()));
 
-	
 	}
 
 	glm::vec3 camSpeedMultiplier(4.0f, 4.0f, 4.0f);
@@ -225,36 +232,27 @@ void PlayingState::update() {
 //	std::cout << "SENT\n";
 
 	//RECEIVE
-	while (true)
+	while (_listening)
 	{
 		Address sender;
-
-		
 		unsigned char buffer[32] = "";
-
 		int bytes_read = socket.Receive(sender, buffer, sizeof(buffer));
 		if (bytes_read <= 0) {
 			if(tick %120 == 0)
 				std::cout << "Silence...";
 			break;
 		}
-
 		_host = sender;
-
 		_connected = true;
-
-		
 		float x;
 		memcpy(&x, &buffer , sizeof(x));
 		float y;
 		memcpy(&y, &buffer[sizeof(y)] , sizeof(y));
-
 		//sscanf_s(bufferX, "%d", &x);
 		//sscanf_s(bufferY, "%d", &y);
 		//std::cout << x;
 		//std::cout << " ";
 		//std::cout << y << std::endl;
-		
 		dynamic_cast<EntityBody*>(_entities[1])->getBody()->SetTransform(b2Vec2(x,y),0.0f);
 		/*std::string s = std::to_string((int)sender.GetAddressIP()[0]) + "."
 			+ std::to_string((int)sender.GetAddressIP()[1])+ "."+
@@ -264,7 +262,6 @@ void PlayingState::update() {
 		printf(":");
 		printf(std::to_string((int)sender.GetPort()).c_str());
 		printf("\n");*/
-
 		break;
 	}
 
