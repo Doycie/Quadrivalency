@@ -32,7 +32,10 @@
 #include "Socket.h"
 #include "Ball.h"
 #include "EntityVisual.h"
-
+#include "EcpComponent.h"
+#include "EcpManager.h"
+#include "CsEntity.h"
+#include "CsComponents.h"
 
 class PlayingState
 {
@@ -40,7 +43,7 @@ public:
 	PlayingState();
 	~PlayingState();
 
-	void init(Drawer * drawer, bool* running);
+	void init(Drawer * drawer, bool* running, SpriteBatch* s);
 
 	void draw(SpriteBatch& spriteBatch);
 	void drawHud(SpriteBatch& hudSpriteBatch, SpriteFont * spriteFont);
@@ -57,14 +60,32 @@ private:
 	int velocityIterations = 8;
 	int positionIterations = 3;
 
-	std::vector<Entity*> _entities;
+	
 
+	std::vector<Entity*> _entities;
+	
+	std::vector<CsEntity> csEntities;
+
+
+	std::list<int> entitiesIDs;
+
+	template<typename T>
+	void removeComponent(T* t, int a);
+
+	std::unordered_map<int, CsBodyComponent*> bodyComponents;
+	std::unordered_map<int, CsDrawingBodyComponent*> drawingBodyComponents;
+	std::unordered_map<int, CsVec2PositionComponent*> csVec2PositionComponents;
+	std::unordered_map<int, CsDrawingPositionComponent*> csDrawingPositionComponents;
+	std::unordered_map<std::string, std::unordered_map<int, CsComponent*>> AllComponents;
+
+	
 	Drawer * _drawer;
 	bool * _running;
 
 	bool _connected =false;
 
 	b2World* _world;
+	SpriteBatch* spriteBatch;
 
 	GLuint tex;
 	TextureCache texCache;

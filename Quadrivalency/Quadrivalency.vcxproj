@@ -125,8 +125,12 @@
   <ItemGroup>
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Charactar.cpp" />
+    <ClCompile Include="CsComponents.cpp" />
+    <ClCompile Include="CsEntity.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="DynamicEntity.cpp" />
+    <ClCompile Include="EcpManager.cpp" />
+    <ClCompile Include="EcpSystem.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityBody.cpp" />
     <ClCompile Include="EntityVisual.cpp" />
@@ -150,13 +154,19 @@
   <ItemGroup>
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Charactar.h" />
+    <ClInclude Include="CsComponents.h" />
+    <ClInclude Include="CsEntity.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="DynamicEntity.h" />
+    <ClInclude Include="EcpComponent.h" />
+    <ClInclude Include="EcpEntity.h" />
+    <ClInclude Include="EcpSystem.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityBody.h" />
     <ClInclude Include="EntityVisual.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="EcpManager.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Npc.h" />
     <ClInclude Include="PathFinder.h" />

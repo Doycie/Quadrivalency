@@ -110,7 +110,7 @@ void MainGame::start() {
 
 	running = true;
 
-	_playingState.init(&drawer, &running);
+	_playingState.init(&drawer, &running, &spriteBatch);
 
 	//glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);

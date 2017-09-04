@@ -1,7 +1,6 @@
 #include "PlayingState.h"
 
 
-
 PlayingState::PlayingState()
 {
 }
@@ -22,12 +21,29 @@ PlayingState::~PlayingState()
 	delete _world;
 }
 
-void PlayingState::init(Drawer * drawer, bool* running) {
+
+
+void PlayingState::init(Drawer * drawer, bool* running,SpriteBatch* s) {
 	_drawer = drawer;
 	_running = running;
 	_listening = false;
-
 	_world = new b2World(b2Vec2(0.0f, -9.81f));
+
+	spriteBatch = s;
+
+	
+	
+	
+	for (int i = 0; i < 5; i++) {
+		bodyComponents.insert(std::pair<int,CsBodyComponent*>(i,(new CsBodyComponent(glm::vec2(5, 5), _world, glm::vec2(1, 1)))));
+		drawingBodyComponents.insert(std::pair<int,CsDrawingBodyComponent*>(i, new CsDrawingBodyComponent(spriteBatch, bodyComponents.at(i), texCache.getTexture("Assets/ball.png"))));
+		
+		entitiesIDs.push_back(i);
+	}
+
+
+
+
 	//CHARACTAR
 	Charactar *e = new Charactar();
 	e->init(glm::vec2(5, 10), glm::vec2(1,2), _world, texCache.getTexture("Assets/birbSheet.png"),false);
@@ -104,10 +120,23 @@ void PlayingState::draw(SpriteBatch& spriteBatch) {
 	for (unsigned int i = 0; i < _entities.size(); i++) {
 		_entities[i]->draw(spriteBatch);
 	}
-
+	
+	for (std::unordered_map< int,CsDrawingBodyComponent* >::iterator it = drawingBodyComponents.begin(); it != drawingBodyComponents.end(); it++) {
+		(*it).second->update();
+	}
+	for (std::unordered_map< int, CsDrawingPositionComponent* >::iterator it = csDrawingPositionComponents.begin(); it != csDrawingPositionComponents.end(); it++) {
+		(*it).second->update();
+	}
 	//spriteBatch.draw(glm::vec4(0,0, 2000, 500), glm::vec4(0, 0, 1, -1.0f), spriteFont->_texID, 1.0f, ColorRGBA8(255, 255, 255, 255));
 	spriteBatch.end();
 	spriteBatch.renderBatch();
+}
+
+
+template<typename T>
+void PlayingState::removeComponent(T* t , int a) {
+	delete t->at(a);
+	t->erase(a);
 }
 
 void PlayingState::input(InputManager& inputManager) {
@@ -158,6 +187,24 @@ void PlayingState::input(InputManager& inputManager) {
 	if (inputManager.isKeyDown(SDLK_d)) {
 		x++;
 	}
+	if (inputManager.isKeyPressed(SDLK_SPACE)) {
+		
+
+	
+			csVec2PositionComponents.insert(std::pair<int, CsVec2PositionComponent*>(2, new CsVec2PositionComponent(bodyComponents.at(2)->getPosition(), bodyComponents.at(2)->getSize(), bodyComponents.at(2)->getAngle())));
+			csDrawingPositionComponents.insert(std::pair<int, CsDrawingPositionComponent*>(2, new CsDrawingPositionComponent(spriteBatch, csVec2PositionComponents.at(2), drawingBodyComponents.at(2)->getTex())));
+
+		removeComponent<std::unordered_map<int, CsBodyComponent*>>((&bodyComponents), 2);
+		removeComponent<std::unordered_map<int, CsDrawingBodyComponent*>>(&drawingBodyComponents, 2);
+		
+		//delete bodyComponents.at(20);
+		//bodyComponents.erase(20);
+
+		//delete drawingBodyComponents.at(20);
+		//drawingBodyComponents.erase(20);
+	}
+	
+
 	if (inputManager.isKeyPressed(SDLK_h)){
 		if (!socket.Open(port))
 		{
@@ -175,7 +222,7 @@ void PlayingState::input(InputManager& inputManager) {
 
 		}
 
-		Address add = Address(82, 217, 111, 144, 30000);
+		Address add = Address(192, 168, 178, 59, 30000);
 
 		std::cout << "Client... Connecting to: ";
 		std::string f = std::to_string((int)add.GetAddressIP()[0]) + "."
@@ -265,10 +312,26 @@ void PlayingState::update() {
 		break;
 	}
 
+	
 
 	_world->Step(timeStep, velocityIterations, positionIterations);
+
+	
+	//manager.updateEntities();
+
+	for (std::unordered_map<int, CsBodyComponent* >::iterator it = bodyComponents.begin(); it != bodyComponents.end(); it++) {
+		(*it).second->update();
+	}
+
+	for (std::unordered_map<int, CsVec2PositionComponent* >::iterator it = csVec2PositionComponents.begin(); it != csVec2PositionComponents.end(); it++) {
+		(*it).second->update();
+	}
+
+
 
 	for (unsigned int i = 0; i < _entities.size(); i++) {
 		_entities[i]->update();
 	}
+
+
 }

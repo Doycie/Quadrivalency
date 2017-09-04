@@ -38,5 +38,4 @@ void DynamicEntity::init(glm::vec2 position, glm::vec2 size, b2World * world, Te
 
 void DynamicEntity::draw(SpriteBatch & spriteBatch) {
 	spriteBatch.draw(glm::vec4((_body->GetPosition().x - _size.x/2 )* 64,( _body->GetPosition().y  - _size.y / 2)* 64, _size.x *64, _size.y * 64), glm::vec4(0, 0, 1.0f, -1.0f), _tex, .5f, ColorRGBA8(255, 255, 255, 255), _body->GetAngle());
-
 }
